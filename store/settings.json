@@ -4,5 +4,11 @@
   "checkoutEnabled": false,
   "heroImages": [],
   "supportEmail": "",
-  "checkoutMessage": "Online checkout is not open yet. Your bag is saved on this device."
+  "checkoutMessage": "Stripe checkout is not connected yet. Your bag is saved on this device.",
+  "paymentProvider": "stripe",
+  "shipping": {
+    "countries": [],
+    "fee": null,
+    "freeOver": 0
+  }
 }

@@ -4,9 +4,10 @@ A professional shopping storefront based on the Apex Access visual direction. Ni
 
 ## Run
 
-Requires Node 22 or newer. No npm dependencies.
+Requires Node 22 or newer. Run `npm ci` first. The frontend has no JavaScript framework; Stripe and Netlify dependencies support the optional payment backend.
 
 ```
+npm ci
 npm run build
 npm test
 npm run dev
@@ -22,7 +23,7 @@ Search, category filters, price/name sorting, saved products, option selection, 
 
 This is a working catalogue and bag preview, not a live order-processing service. Checkout is explicitly paused. No card details or customer information are collected. `checkoutEnabled` is informational; changing it does not create a payment integration.
 
-Connect a server-side payment provider, verified inventory and fulfilment process; confirm prices, specifications, support details and delivery/return terms before opening orders. The existing Apex backend is separate and its configuration was preserved. No credentials were copied.
+A Stripe-only Netlify backend is included. It is prepared to connect to the existing **Daily Premium Stripe account**, not Apex’s account. See `docs/stripe-setup.md`. No credentials have been copied or connected. Confirm inventory, fulfilment, selling prices and store terms before opening orders. The Sites URL is a private static preview; deploy the repository on Netlify to run its payment functions.
 
 ## Content
 
