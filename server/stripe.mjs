@@ -42,7 +42,7 @@ export async function checkoutResponse(request,env,lookup,makeClient=client){
  if(!previous&&recent.total>=20)return reply({error:'Please wait before starting another checkout.'},429);
  await env.DB.prepare('INSERT OR IGNORE INTO orders (id,items_json,total_pence,currency,status,created_at,ip_hash) VALUES (?,?,?,?,?,?,?)').bind(id,JSON.stringify(items),total,currency,'pending',Date.now(),ipHash).run();
  const origin=new URL(request.url).origin;
- const session=await makeClient(env).checkout.sessions.create({mode:'payment',payment_method_types:['card'],client_reference_id:id,metadata:{daliy_order_id:id},
+ const session=await makeClient(env).checkout.sessions.create({mode:'payment',excluded_payment_method_types:['crypto','paypal'],integration_identifier:'daliy_premium_pzqmwctn',client_reference_id:id,metadata:{daliy_order_id:id},
   line_items:items.map(l=>({quantity:l.qty,price_data:{currency,unit_amount:l.unitAmount,product_data:{name:l.name,description:l.productType==='physical'?`${l.colour} · Size ${l.size}`:`Plan: ${l.colour}`,metadata:{product_id:l.id,variant_id:l.variantId,size:l.size,colour:l.colour}}}})),
   ...(physical?{shipping_address_collection:{allowed_countries:shipping.countries},shipping_options:[{shipping_rate_data:{type:'fixed_amount',fixed_amount:{amount:fee,currency},display_name:fee?'Standard shipping':'Shipping included'}}]}:{}),
   success_url:origin+'/?session_id={CHECKOUT_SESSION_ID}',cancel_url:origin+'/?checkout=cancelled#collection'
