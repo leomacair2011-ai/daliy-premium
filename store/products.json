@@ -2,18 +2,20 @@
   {
     "id": "daily-7720734",
     "type": "physical",
-    "name": "Louis Vuitton Pacific Chill \u00b7 100ml",
+    "name": "Louis Vuitton Pacific Chill · 100ml",
     "brand": "Louis",
     "category": "Fragrance",
     "price": 35.99,
     "stock": 0,
     "availability": "unconfirmed",
-    "description": "Louis Vuitton Pacific Chill \u00b7 100ml. Select a pack and colour to see the listed price.",
+    "description": "Louis Vuitton Pacific Chill · 100ml. Select a pack and colour to see the listed price.",
     "details": [
       "Listing imported from Daily Premium on 13 November 2026.",
       "Stock and product specifications require seller confirmation before purchase."
     ],
-    "images": [],
+    "images": [
+      "./assets/products/7720734-1.webp"
+    ],
     "featured": true,
     "variants": [
       {
@@ -39,17 +41,17 @@
         "values": [
           {
             "id": 66500763,
-            "value_name": "1 Piece \u00a335.99 /unit",
+            "value_name": "1 Piece £35.99 /unit",
             "price": 35.99,
-            "price_format": "\uffe135.99",
+            "price_format": "￡35.99",
             "status": 0,
             "link": ""
           },
           {
             "id": 66500764,
-            "value_name": "10 Piece \u00a323.99 /unit",
+            "value_name": "10 Piece £23.99 /unit",
             "price": 239.9,
-            "price_format": "\uffe1239.90",
+            "price_format": "￡239.90",
             "status": 0,
             "link": ""
           }
@@ -60,7 +62,11 @@
       }
     ],
     "sourceCheckedAt": "2026-11-13",
-    "sourceStock": 0
+    "sourceStock": 0,
+    "sourceImages": [
+      "https://shop910.net/1915/e4085209.webp"
+    ],
+    "studioArt": "fragrance"
   },
   {
     "id": "daily-7720735",
@@ -76,7 +82,10 @@
       "Listing imported from Daily Premium on 13 November 2026.",
       "Stock and product specifications require seller confirmation before purchase."
     ],
-    "images": [],
+    "images": [
+      "./assets/products/7720735-1.webp",
+      "./assets/products/7720735-2.webp"
+    ],
     "featured": true,
     "variants": [
       {
@@ -200,33 +209,33 @@
         "values": [
           {
             "id": 66499802,
-            "value_name": "1 Piece \u00a3109.99 /unit + free shipping",
+            "value_name": "1 Piece £109.99 /unit + free shipping",
             "price": 109.99,
-            "price_format": "\uffe1109.99",
+            "price_format": "￡109.99",
             "status": 0,
             "link": ""
           },
           {
             "id": 66499803,
-            "value_name": "3 Piece \u00a3105.99 /unit + free shipping",
+            "value_name": "3 Piece £105.99 /unit + free shipping",
             "price": 317.97,
-            "price_format": "\uffe1317.97",
+            "price_format": "￡317.97",
             "status": 0,
             "link": ""
           },
           {
             "id": 66499804,
-            "value_name": "5 Piece \u00a395.99 /unit + free shipping",
+            "value_name": "5 Piece £95.99 /unit + free shipping",
             "price": 479.94,
-            "price_format": "\uffe1479.94",
+            "price_format": "￡479.94",
             "status": 0,
             "link": ""
           },
           {
             "id": 66499805,
-            "value_name": "10 Piece \u00a393.99 /unit + free shipping",
+            "value_name": "10 Piece £93.99 /unit + free shipping",
             "price": 939.99,
-            "price_format": "\uffe1939.99",
+            "price_format": "￡939.99",
             "status": 0,
             "link": ""
           }
@@ -242,7 +251,7 @@
             "id": 66499806,
             "value_name": "Burgundy",
             "price": 0,
-            "price_format": "\uffe10.00",
+            "price_format": "￡0.00",
             "status": 0,
             "link": ""
           },
@@ -250,7 +259,7 @@
             "id": 66499807,
             "value_name": " Glacier",
             "price": 0,
-            "price_format": "\uffe10.00",
+            "price_format": "￡0.00",
             "status": 0,
             "link": ""
           },
@@ -258,7 +267,7 @@
             "id": 66499808,
             "value_name": "Black",
             "price": 0,
-            "price_format": "\uffe10.00",
+            "price_format": "￡0.00",
             "status": 0,
             "link": ""
           },
@@ -266,7 +275,7 @@
             "id": 66499809,
             "value_name": "Silver",
             "price": 0,
-            "price_format": "\uffe10.00",
+            "price_format": "￡0.00",
             "status": 0,
             "link": ""
           }
@@ -277,7 +286,12 @@
       }
     ],
     "sourceCheckedAt": "2026-11-13",
-    "sourceStock": 4999
+    "sourceStock": 4999,
+    "sourceImages": [
+      "https://shop910.net/1915/微信图片_20261026173142_502_3.webp",
+      "https://shop910.net/1915/微信图片_20261026173142_501_3.webp"
+    ],
+    "studioArt": "phone"
   },
   {
     "id": "daily-7720742",
@@ -293,7 +307,10 @@
       "Listing imported from Daily Premium on 13 November 2026.",
       "Stock and product specifications require seller confirmation before purchase."
     ],
-    "images": [],
+    "images": [
+      "./assets/products/7720742-1.webp",
+      "./assets/products/7720742-2.webp"
+    ],
     "featured": true,
     "variants": [
       {
@@ -308,7 +325,12 @@
     "sourceName": "Dyson HS08",
     "sourceOptions": [],
     "sourceCheckedAt": "2026-11-13",
-    "sourceStock": 0
+    "sourceStock": 0,
+    "sourceImages": [
+      "https://shop910.net/1915/8dccb09f.webp",
+      "https://shop910.net/1915/985f3cd7.webp"
+    ],
+    "studioArt": "styler"
   },
   {
     "id": "daily-7730224",
@@ -324,7 +346,10 @@
       "Listing imported from Daily Premium on 13 November 2026.",
       "Stock and product specifications require seller confirmation before purchase."
     ],
-    "images": [],
+    "images": [
+      "./assets/products/7730224-1.webp",
+      "./assets/products/7730224-2.webp"
+    ],
     "featured": true,
     "variants": [
       {
@@ -392,33 +417,33 @@
         "values": [
           {
             "id": 66500443,
-            "value_name": "1 Piece \u00a368.99/unit+ free shipping",
+            "value_name": "1 Piece £68.99/unit+ free shipping",
             "price": 68.99,
-            "price_format": "\uffe168.99",
+            "price_format": "￡68.99",
             "status": 0,
             "link": ""
           },
           {
             "id": 66500444,
-            "value_name": "3 Piece \u00a365.99/unit+ free shipping",
+            "value_name": "3 Piece £65.99/unit+ free shipping",
             "price": 197.96,
-            "price_format": "\uffe1197.96",
+            "price_format": "￡197.96",
             "status": 0,
             "link": ""
           },
           {
             "id": 66500445,
-            "value_name": "5 Piece \u00a362.99/unit+ free shipping",
+            "value_name": "5 Piece £62.99/unit+ free shipping",
             "price": 314.95,
-            "price_format": "\uffe1314.95",
+            "price_format": "￡314.95",
             "status": 0,
             "link": ""
           },
           {
             "id": 66500446,
-            "value_name": "10 Piece \u00a360.99/unit+ free shipping",
+            "value_name": "10 Piece £60.99/unit+ free shipping",
             "price": 609.9,
-            "price_format": "\uffe1609.90",
+            "price_format": "￡609.90",
             "status": 0,
             "link": ""
           }
@@ -434,7 +459,7 @@
             "id": 66500447,
             "value_name": "Black",
             "price": 0,
-            "price_format": "\uffe10.00",
+            "price_format": "￡0.00",
             "status": 0,
             "link": ""
           },
@@ -442,7 +467,7 @@
             "id": 66500448,
             "value_name": "White",
             "price": 0,
-            "price_format": "\uffe10.00",
+            "price_format": "￡0.00",
             "status": 0,
             "link": ""
           }
@@ -453,7 +478,12 @@
       }
     ],
     "sourceCheckedAt": "2026-11-13",
-    "sourceStock": 1998
+    "sourceStock": 1998,
+    "sourceImages": [
+      "https://shop910.net/1915/微信图片_20261026202533_552_3.webp",
+      "https://shop910.net/1915/8eb2e106-f343-4cf8-aa47-78ca380aedd9.webp"
+    ],
+    "studioArt": "glasses"
   },
   {
     "id": "daily-7720755",
@@ -469,7 +499,10 @@
       "Listing imported from Daily Premium on 13 November 2026.",
       "Stock and product specifications require seller confirmation before purchase."
     ],
-    "images": [],
+    "images": [
+      "./assets/products/7720755-1.webp",
+      "./assets/products/7720755-2.webp"
+    ],
     "featured": true,
     "variants": [
       {
@@ -495,32 +528,32 @@
       }
     ],
     "sourceUrl": "https://dailypremium1.com/products/EARPHONE-Xh3lx6ni",
-    "sourceName": "Airpods pro 3 NOTE : COMES WITH BAG , RECEIPT AND FULL PACKAGING\uff0cLaser printed writing",
+    "sourceName": "Airpods pro 3 NOTE : COMES WITH BAG , RECEIPT AND FULL PACKAGING，Laser printed writing",
     "sourceOptions": [
       {
         "option_name": "option",
         "values": [
           {
             "id": 66502730,
-            "value_name": "1Piece \u00a324.99 /unit+ free shipping",
+            "value_name": "1Piece £24.99 /unit+ free shipping",
             "price": 24.99,
-            "price_format": "\uffe124.99",
+            "price_format": "￡24.99",
             "status": 0,
             "link": ""
           },
           {
             "id": 66502731,
-            "value_name": "5 Piece \u00a320.99 /unit+ free shipping",
+            "value_name": "5 Piece £20.99 /unit+ free shipping",
             "price": 104.95,
-            "price_format": "\uffe1104.95",
+            "price_format": "￡104.95",
             "status": 0,
             "link": ""
           },
           {
             "id": 66502732,
-            "value_name": "10 Piece \u00a318.99 /unit+ free shipping",
+            "value_name": "10 Piece £18.99 /unit+ free shipping",
             "price": 189.9,
-            "price_format": "\uffe1189.90",
+            "price_format": "￡189.90",
             "status": 0,
             "link": ""
           }
@@ -536,7 +569,7 @@
             "id": 66502733,
             "value_name": "  COMES WITH BAG , RECEIPT AND FULL PACKAGING",
             "price": 0,
-            "price_format": "\uffe10.00",
+            "price_format": "￡0.00",
             "status": 0,
             "link": ""
           }
@@ -547,7 +580,12 @@
       }
     ],
     "sourceCheckedAt": "2026-11-13",
-    "sourceStock": 4996
+    "sourceStock": 4996,
+    "sourceImages": [
+      "https://shop910.net/1915/微信图片_20261027083820_985_29.webp",
+      "https://shop910.net/1915/033b182b-28ab-42dc-85fd-2aec03d28069.webp"
+    ],
+    "studioArt": "buds"
   },
   {
     "id": "daily-7730237",
@@ -563,7 +601,10 @@
       "Listing imported from Daily Premium on 13 November 2026.",
       "Stock and product specifications require seller confirmation before purchase."
     ],
-    "images": [],
+    "images": [
+      "./assets/products/7730237-1.webp",
+      "./assets/products/7730237-2.webp"
+    ],
     "featured": true,
     "variants": [
       {
@@ -680,25 +721,25 @@
         "values": [
           {
             "id": 66500453,
-            "value_name": "1 Piece \u00a395.99 /unit+ free shipping",
+            "value_name": "1 Piece £95.99 /unit+ free shipping",
             "price": 95.99,
-            "price_format": "\uffe195.99",
+            "price_format": "￡95.99",
             "status": 0,
             "link": ""
           },
           {
             "id": 66500454,
-            "value_name": "5 Piece \u00a385.99 /unit+ free shipping",
+            "value_name": "5 Piece £85.99 /unit+ free shipping",
             "price": 429.95,
-            "price_format": "\uffe1429.95",
+            "price_format": "￡429.95",
             "status": 0,
             "link": ""
           },
           {
             "id": 66500455,
-            "value_name": "10 Piece \u00a380.99 /unit+ free shipping",
+            "value_name": "10 Piece £80.99 /unit+ free shipping",
             "price": 809.9,
-            "price_format": "\uffe1809.90",
+            "price_format": "￡809.90",
             "status": 0,
             "link": ""
           }
@@ -714,7 +755,7 @@
             "id": 66500456,
             "value_name": "Midnight Black",
             "price": 0,
-            "price_format": "\uffe10.00",
+            "price_format": "￡0.00",
             "status": 0,
             "link": ""
           },
@@ -722,7 +763,7 @@
             "id": 66500457,
             "value_name": "Blue",
             "price": 0,
-            "price_format": "\uffe10.00",
+            "price_format": "￡0.00",
             "status": 0,
             "link": ""
           },
@@ -730,7 +771,7 @@
             "id": 66500458,
             "value_name": "Purple",
             "price": 0,
-            "price_format": "\uffe10.00",
+            "price_format": "￡0.00",
             "status": 0,
             "link": ""
           },
@@ -738,7 +779,7 @@
             "id": 66500459,
             "value_name": "Orange",
             "price": 0,
-            "price_format": "\uffe10.00",
+            "price_format": "￡0.00",
             "status": 0,
             "link": ""
           },
@@ -746,7 +787,7 @@
             "id": 66500460,
             "value_name": "Starlight",
             "price": 0,
-            "price_format": "\uffe10.00",
+            "price_format": "￡0.00",
             "status": 0,
             "link": ""
           }
@@ -757,7 +798,12 @@
       }
     ],
     "sourceCheckedAt": "2026-11-13",
-    "sourceStock": 499
+    "sourceStock": 499,
+    "sourceImages": [
+      "https://shop910.net/1915/微信图片_20261026195645_551_3.webp",
+      "https://shop910.net/1915/微信图片_20261026194326_550_3.webp"
+    ],
+    "studioArt": "max"
   },
   {
     "id": "daily-7730272",
@@ -773,7 +819,10 @@
       "Listing imported from Daily Premium on 13 November 2026.",
       "Stock and product specifications require seller confirmation before purchase."
     ],
-    "images": [],
+    "images": [
+      "./assets/products/7730272-1.webp",
+      "./assets/products/7730272-2.webp"
+    ],
     "featured": true,
     "variants": [
       {
@@ -813,33 +862,33 @@
         "values": [
           {
             "id": 66500729,
-            "value_name": "1 Piece \u00a3105.99 /unit + free shipping",
+            "value_name": "1 Piece £105.99 /unit + free shipping",
             "price": 105.99,
-            "price_format": "\uffe1105.99",
+            "price_format": "￡105.99",
             "status": 0,
             "link": ""
           },
           {
             "id": 66500730,
-            "value_name": "3 Piece \u00a3103.99 /unit + free shipping",
+            "value_name": "3 Piece £103.99 /unit + free shipping",
             "price": 311.97,
-            "price_format": "\uffe1311.97",
+            "price_format": "￡311.97",
             "status": 0,
             "link": ""
           },
           {
             "id": 66500731,
-            "value_name": "5 Piece \u00a398.99 /unit + free shipping",
+            "value_name": "5 Piece £98.99 /unit + free shipping",
             "price": 494.95,
-            "price_format": "\uffe1494.95",
+            "price_format": "￡494.95",
             "status": 0,
             "link": ""
           },
           {
             "id": 66500732,
-            "value_name": "10 Piece \u00a395.99 /unit + free shipping",
+            "value_name": "10 Piece £95.99 /unit + free shipping",
             "price": 959.9,
-            "price_format": "\uffe1959.90",
+            "price_format": "￡959.90",
             "status": 0,
             "link": ""
           }
@@ -850,7 +899,12 @@
       }
     ],
     "sourceCheckedAt": "2026-11-13",
-    "sourceStock": 4999
+    "sourceStock": 4999,
+    "sourceImages": [
+      "https://shop910.net/1915/微信图片_20261026190824_530_3.webp",
+      "https://shop910.net/1915/c376094b-b9a7-4b2a-bde9-4f712bb301c6.webp"
+    ],
+    "studioArt": "samsung"
   },
   {
     "id": "daily-7730280",
@@ -866,7 +920,9 @@
       "Listing imported from Daily Premium on 13 November 2026.",
       "Stock and product specifications require seller confirmation before purchase."
     ],
-    "images": [],
+    "images": [
+      "./assets/products/7730280-1.webp"
+    ],
     "featured": true,
     "variants": [
       {
@@ -881,7 +937,11 @@
     "sourceName": "Dyson HD15",
     "sourceOptions": [],
     "sourceCheckedAt": "2026-11-13",
-    "sourceStock": 0
+    "sourceStock": 0,
+    "sourceImages": [
+      "https://shop910.net/1915/84145c65.webp"
+    ],
+    "studioArt": "dryer"
   },
   {
     "id": "daily-7720703",
@@ -897,7 +957,10 @@
       "Listing imported from Daily Premium on 13 November 2026.",
       "Stock and product specifications require seller confirmation before purchase."
     ],
-    "images": [],
+    "images": [
+      "./assets/products/7720703-1.webp",
+      "./assets/products/7720703-2.webp"
+    ],
     "featured": true,
     "variants": [
       {
@@ -937,33 +1000,33 @@
         "values": [
           {
             "id": 66500449,
-            "value_name": "1 Piece \u00a339.99 /unit+ free shipping",
+            "value_name": "1 Piece £39.99 /unit+ free shipping",
             "price": 39.99,
-            "price_format": "\uffe139.99",
+            "price_format": "￡39.99",
             "status": 0,
             "link": ""
           },
           {
             "id": 66500450,
-            "value_name": "5 Piece \u00a336.99 /unit+ free shipping",
+            "value_name": "5 Piece £36.99 /unit+ free shipping",
             "price": 184.95,
-            "price_format": "\uffe1184.95",
+            "price_format": "￡184.95",
             "status": 0,
             "link": ""
           },
           {
             "id": 66500451,
-            "value_name": "10 Piece \u00a330.99 /unit+ free shipping",
+            "value_name": "10 Piece £30.99 /unit+ free shipping",
             "price": 309.9,
-            "price_format": "\uffe1309.90",
+            "price_format": "￡309.90",
             "status": 0,
             "link": ""
           },
           {
             "id": 66500452,
-            "value_name": "20 Piece \u00a327.88 /unit+ free shipping",
+            "value_name": "20 Piece £27.88 /unit+ free shipping",
             "price": 557.6,
-            "price_format": "\uffe1557.60",
+            "price_format": "￡557.60",
             "status": 0,
             "link": ""
           }
@@ -974,6 +1037,11 @@
       }
     ],
     "sourceCheckedAt": "2026-11-13",
-    "sourceStock": 10000
+    "sourceStock": 10000,
+    "sourceImages": [
+      "https://shop910.net/1915/84a5a378-2c39-4f81-bb8f-789d24f25a12.webp",
+      "https://shop910.net/1915/fe597a52-2f5c-4c9a-8249-5d2d84832837.webp"
+    ],
+    "studioArt": "watch"
   }
 ]

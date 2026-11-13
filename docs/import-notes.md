@@ -1,6 +1,6 @@
 # Daily Premium import — 13 November 2026
 
-Imported nine products and 54 pack/colour combinations from https://dailypremium1.com/getTypeProducts?type=all&page=1 and its public product detail endpoint. Existing Apex products are preserved. No source photographs, ratings, seller contact details or marketing claims were imported into the storefront.
+Imported nine products and 54 pack/colour combinations from https://dailypremium1.com/getTypeProducts?type=all&page=1 and its public product detail endpoint. Existing Apex products are preserved. The redesign imports up to two source photographs per product (16 total). Ratings, seller contact details and unverified performance claims are not presented as store claims.
 
 Source listing names, option data, URLs and stock snapshots are retained for audit. Imported stock is unconfirmed (0 sellable units); a supplier-level count is not this store’s inventory. Imported Apex products cannot be purchased until stock is confirmed. The Daliy Premium preview supports saving products to a bag but does not accept orders.
 
