@@ -1,0 +1,8 @@
+{
+  "name": "Daliy Premium",
+  "currency": "GBP",
+  "checkoutEnabled": false,
+  "heroImages": [],
+  "supportEmail": "",
+  "checkoutMessage": "Online checkout is not open yet. Your bag is saved on this device."
+}
