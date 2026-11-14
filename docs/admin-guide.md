@@ -5,7 +5,7 @@ Open https://daliy-premium.zany-sugar-0629.chatgpt.site/account, sign in with th
 ## Products
 
 - Select **Products → Add product**, or choose an existing listing to edit.
-- Enter its name, category, description, and options. Prices are GBP per pack; stock is a count of packs.
+- Enter its name, category, description, and options. Choose a suggested category or type your own; published categories appear in the shop filters. Prices are GBP per pack; stock is a count of packs.
 - Upload JPEG, PNG or WebP photos, up to 5 MB per photo and 10 photos per product. Choose **Use as cover** to change the first image.
 - Save as **Draft** while preparing the listing. Choose **Published** and save when it is ready to appear in the shop. Choose **Archived** to hide it without deleting its record.
 - Confirm stock only after checking the quantities. Publishing a listing does not enable Stripe or take payments.

@@ -1,7 +1,8 @@
 import {money,lineKey,normalizeBag,bagTotal,filterProducts} from './cart.mjs';
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const cats=['Phones','Audio','Smart glasses','Watches','Hair care','Fragrance'];
+const defaultCategories=['Phones','Audio','Smart glasses','Watches','Hair care','Fragrance'];
+let cats=[...defaultCategories];
 const categoryArt={'Phones':'phone','Audio':'max','Smart glasses':'glasses','Watches':'watch','Hair care':'styler','Fragrance':'fragrance'};
 const displayOrder=['daily-7720735','daily-7730237','daily-7720755','daily-7730224','daily-7720703','daily-7730272','daily-7720742','daily-7730280','daily-7720734'];
 const read=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}};
@@ -23,7 +24,7 @@ function render(){
   const items=filterProducts(products,{...filters,saved});
   if(filters.sort==='featured')items.sort((a,b)=>displayOrder.indexOf(a.id)-displayOrder.indexOf(b.id));
   $('resultCount').textContent=`${items.length} ${items.length===1?'product':'products'}`;
-  $('filters').innerHTML=['All products',...cats].map(c=>`<button class="filter" data-category="${c}" aria-pressed="${filters.category===c}">${c}</button>`).join('');
+  $('filters').innerHTML=['All products',...cats].map(c=>`<button class="filter" data-category="${esc(c)}" aria-pressed="${filters.category===c}">${esc(c)}</button>`).join('');
   $('empty').hidden=!!items.length;
   $('productGrid').innerHTML=items.map(p=>`<article class="product-card">
     <button class="save" data-save="${p.id}" aria-label="${saved.includes(p.id)?'Unsave':'Save'} ${esc(p.name)}" aria-pressed="${saved.includes(p.id)}">${heart}</button>
@@ -97,12 +98,12 @@ for(const d of document.querySelectorAll('dialog')){
 async function load(){
   try{
     const r=await Promise.all([fetch('./catalogue.json'),fetch('./settings.json')]);if(r.some(x=>!x.ok))throw Error();
-    [products,settings]=await Promise.all(r.map(x=>x.json()));bag=normalizeBag(read('daliy-bag-v1',[]),products);
+    [products,settings]=await Promise.all(r.map(x=>x.json()));cats=[...new Set([...defaultCategories,...products.map(p=>p.category)])];bag=normalizeBag(read('daliy-bag-v1',[]),products);
     const stored=read('daliy-saved-v1',[]);saved=Array.isArray(stored)?[...new Set(stored.filter(id=>products.some(p=>p.id===id)))]:[];
     const q=new URLSearchParams(location.search);filters.search=q.get('q')||'';filters.category=cats.includes(q.get('category'))?q.get('category'):'All products';filters.sort=['featured','price-low','price-high','name'].includes(q.get('sort'))?q.get('sort'):'featured';
     filters.savedOnly=q.get('saved')==='1';
     if($('search'))$('search').value=filters.search;if($('sort'))$('sort').value=filters.sort;
-    if($('heroCategories'))$('heroCategories').innerHTML=cats.map(c=>`<a href="#collection" data-category="${c}"><span class="product-art art-${categoryArt[c]}" aria-hidden="true"></span><span>${c}</span></a>`).join('');
+    if($('heroCategories'))$('heroCategories').innerHTML=cats.map(c=>`<a href="#collection" data-category="${esc(c)}">${categoryArt[c]?`<span class="product-art art-${categoryArt[c]}" aria-hidden="true"></span>`:`<img class="category-image" src="${esc(products.find(p=>p.category===c)?.images[0]||'')}" alt="" loading="lazy">`}<span>${esc(c)}</span></a>`).join('');
     document.querySelectorAll('.highlight-card[data-product],.feature-tile [data-product]').forEach(el=>{const p=products.find(p=>p.id===el.dataset.product);const tile=el.closest('.feature-tile')||el;tile.hidden=!p;if(p&&el.classList.contains('highlight-card')){el.setAttribute('aria-label','Explore '+p.name);if(p.managed)el.querySelector('strong').textContent=p.name;if(p.customImages){tile.querySelectorAll(':scope > .product-art,:scope > img').forEach(image=>image.hidden=true);const photo=document.createElement('img');photo.src=p.images[0];photo.alt='';photo.className='highlight-upload';tile.append(photo)}}});
     document.querySelectorAll('[data-price]').forEach(el=>{const p=products.find(p=>p.id===el.dataset.price);if(p)el.textContent=money(p.price)});
     if($('loadError'))$('loadError').hidden=true;render();loadCheckoutConfig();checkPaymentReturn();

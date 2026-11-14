@@ -1,7 +1,6 @@
 import baseProducts from '../store/products.json' with {type:'json'};
 import {identity} from './support.mjs';
 const json=(data,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
-const categories=['Phones','Audio','Smart glasses','Watches','Hair care','Fragrance'];
 const uuidPattern=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
 class Invalid extends Error{constructor(message,status=400){super(message);this.status=status}}
 const fail=(message,status)=>{throw new Invalid(message,status)};
@@ -29,7 +28,7 @@ function imageType(bytes){
 }
 async function validatedProduct(raw,existing,env){
  const name=str(raw.name,120,'product name',true),description=str(raw.description,3000,'description');
- if(!categories.includes(raw.category))fail('Choose a category.');
+ const category=str(raw.category,40,'category',true);
  if(!['draft','published','archived'].includes(raw.state))fail('Choose a listing state.');
  if(!['available','unconfirmed'].includes(raw.availability))fail('Choose a stock confirmation state.');
  if(!Array.isArray(raw.variants)||!raw.variants.length||raw.variants.length>60)fail('Add between 1 and 60 product options.');
@@ -45,7 +44,7 @@ async function validatedProduct(raw,existing,env){
  const images=[...new Set(raw.images)];
  for(const image of images){if(typeof image!=='string')fail('Invalid product photo.');if(existing?.images.includes(image))continue;const id=image.match(/^\/media\/([a-f0-9-]{36})$/)?.[1];if(!id||!await env.DB.prepare('SELECT id FROM product_media WHERE id=?').bind(id).first())fail('Upload photos using the photo uploader.');}
  if(raw.state==='published'&&!images.length)fail('Add at least one photo before publishing.');
- return {...(existing||{}),id:raw.id,type:'physical',name,category:raw.category,description,images,variants,price:Math.min(...variants.map(v=>v.price)),stock:variants.reduce((n,v)=>n+v.stock,0),availability:raw.availability,customImages:existing?.customImages||JSON.stringify(images)!==JSON.stringify(existing?.images||[]),state:raw.state};
+ return {...(existing||{}),id:raw.id,type:'physical',name,category,description,images,variants,price:Math.min(...variants.map(v=>v.price)),stock:variants.reduce((n,v)=>n+v.stock,0),availability:raw.availability,customImages:existing?.customImages||JSON.stringify(images)!==JSON.stringify(existing?.images||[]),state:raw.state};
 }
 function orderObject(row){return {...row,items:JSON.parse(row.items_json),customer:row.customer_json?JSON.parse(row.customer_json):null,items_json:undefined,customer_json:undefined,ip_hash:undefined}}
 export async function adminAPI(request,env){
