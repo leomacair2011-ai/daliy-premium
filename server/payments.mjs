@@ -17,7 +17,7 @@ export async function paymentsAPI(request,runtime){
   if(request.method!=='POST')return json({error:'Method not allowed.'},405);
   if(request.headers.get('origin')!==new URL(request.url).origin)return json({error:'Invalid origin.'},403);
   const stripe=new Stripe(env.STRIPE_SECRET_KEY,{httpClient:Stripe.createFetchHttpClient()}),account=await stripe.accounts.retrieve();
-  if(account.id!==merchant.accountId||!account.charges_enabled)return json({error:'The Daily Premium Stripe account is not ready.'},503);
+  if(account.id!==merchant.accountId||!account.charges_enabled)return json({error:'The Mello Stripe account is not ready.'},503);
   const products=(await catalogueProducts(env)).map(p=>({...p,productType:'physical',variants:p.variants.map(v=>({...v,colour:v.label,sizes:['One size'],stockBySize:{'One size':v.stock}}))}));
   return checkoutResponse(request,env,async ids=>products.filter(p=>ids.includes(p.id)),()=>stripe);
  }catch{return json({error:'Payment service is temporarily unavailable. Your bag is saved.'},503)}

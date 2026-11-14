@@ -3,14 +3,14 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const defaultCategories=['Phones','Audio','Smart glasses','Watches','Hair care','Fragrance'];
 let cats=[...defaultCategories];
-const categoryArt={'Phones':'phone','Audio':'max','Smart glasses':'glasses','Watches':'watch','Hair care':'styler','Fragrance':'fragrance'};
+const categoryCover={'Phones':'daily-7720735','Audio':'daily-7730237','Smart glasses':'daily-7730224','Watches':'daily-7720703','Hair care':'daily-7720742','Fragrance':'daily-7720734'};
 const displayOrder=['daily-7720735','daily-7730237','daily-7720755','daily-7730224','daily-7720703','daily-7730272','daily-7720742','daily-7730280','daily-7720734'];
 const read=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}};
 let products=[],settings={},bag=[],saved=[],timer;
 let filters={search:'',category:'All products',sort:'featured',savedOnly:false};
 const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{toast('Browser storage is unavailable. Keep this page open to retain your bag.')}};
 const heart='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>';
-const art=p=>(p.customImages||!p.studioArt)&&p.images?.length?`<img class="catalogue-photo" src="${esc(p.images[0])}" alt="${esc(p.name)}" loading="lazy">`:`<span class="product-art art-${esc(p.studioArt)}" role="img" aria-label="Styled image of ${esc(p.name)}"></span>`;
+const art=p=>p.images?.length?`<img class="catalogue-photo" src="${esc(p.images[0])}" alt="${esc(p.name)}" loading="lazy">`:'';
 function toast(t){$('toast').textContent=t;$('toast').classList.add('visible');clearTimeout(timer);timer=setTimeout(()=>$('toast').classList.remove('visible'),3500)}
 function counts(){
   const n=bag.reduce((n,l)=>n+l.qty,0);
@@ -42,9 +42,9 @@ function closeMenu(){$('mainNav').classList.remove('open');$('menuToggle').setAt
 function product(id){
   const p=products.find(p=>p.id===id);if(!p){toast('The collection is still loading. Please try again.');return}
   $('productContent').innerHTML=`<div class="detail-layout"><div class="detail-gallery">
-    <div class="detail-image-wrap"><img id="detailImage" class="detail-image" src="${esc(p.images[0])}" alt="${esc(p.name)} — supplier photo 1" width="700" height="700"></div>
+    <div class="detail-image-wrap"><img id="detailImage" class="detail-image" src="${esc(p.images[0])}" alt="${esc(p.name)} — product image 1" width="700" height="700"></div>
     <div class="gallery-thumbs" aria-label="Product photos">${p.images.map((src,i)=>`<button class="gallery-thumb" data-photo="${i}" aria-label="View product photo ${i+1}" aria-pressed="${i===0}"><img src="${esc(src)}" alt="" width="62" height="62"></button>`).join('')}</div>
-    <p class="gallery-caption">${p.customImages?'Product photography':'Original supplier photography'} · <span id="photoNumber">1</span> / ${p.images.length}</p>
+    <p class="gallery-caption">Product images · <span id="photoNumber">1</span> / ${p.images.length}</p>
   </div><div class="detail-body"><p class="eyebrow">${esc(p.category)}</p><h2 id="productTitle">${esc(p.name)}</h2><p class="detail-price" id="optionPrice">${money(p.variants[0].price)}</p><p class="detail-note">Selected pack price · GBP</p>
     <label class="option-label" for="variant">Choose your option.</label><select id="variant" class="option-select">${p.variants.map(v=>`<option value="${v.id}">${esc(v.label)} — ${money(v.price)}</option>`).join('')}</select>
     <div class="quantity-row"><span>Quantity of packs</span><div class="stepper"><button id="qtyDown" aria-label="Decrease quantity">−</button><input id="quantity" type="number" min="1" max="99" value="1" inputmode="numeric" aria-label="Quantity of packs"><button id="qtyUp" aria-label="Increase quantity">+</button></div></div>
@@ -52,7 +52,7 @@ function product(id){
     <details><summary>Product information</summary><p>${esc(p.description||p.name)}</p></details>
     <details><summary>Delivery & returns</summary><p>Estimated delivery: 14 days after dispatch. Final destinations, charges and return terms will be confirmed before checkout opens. Adding to your bag does not reserve stock or place an order.</p></details>
   </div></div>`;
-  document.querySelectorAll('[data-photo]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.photo);$('detailImage').src=p.images[i];$('detailImage').alt=`${p.name} — supplier photo ${i+1}`;$('photoNumber').textContent=i+1;document.querySelectorAll('[data-photo]').forEach(t=>t.setAttribute('aria-pressed',t===b))});
+  document.querySelectorAll('[data-photo]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.photo);$('detailImage').src=p.images[i];$('detailImage').alt=`${p.name} — product image ${i+1}`;$('photoNumber').textContent=i+1;document.querySelectorAll('[data-photo]').forEach(t=>t.setAttribute('aria-pressed',t===b))});
   $('variant').onchange=()=>$('optionPrice').textContent=money(p.variants.find(v=>v.id===$('variant').value).price);
   const qty=()=>Math.min(99,Math.max(1,parseInt($('quantity').value,10)||1));
   $('qtyDown').onclick=()=>$('quantity').value=Math.max(1,qty()-1);$('qtyUp').onclick=()=>$('quantity').value=Math.min(99,qty()+1);$('quantity').onchange=()=>$('quantity').value=qty();
@@ -69,7 +69,7 @@ const info={
   delivery:['Delivery & returns','Estimated delivery is 14 days after dispatch. Delivery times may vary by destination. Destinations, delivery charges and return terms will be confirmed before online checkout opens. Adding a product to your bag does not reserve stock or place an order.'],
   discount:['A little extra, with your code.','Have a discount code? Discount codes will be available when checkout and promotions are activated. Any eligible discount and its conditions will appear before you pay. No promotional code is currently advertised by this store.'],
   privacy:['Your privacy.','Your shopping bag and saved products are stored locally in this browser. Support chat messages are stored on the store’s server so the owner can reply. Guest chats use a private browser cookie for up to 30 days; signed-in conversations are associated with your account. IP addresses are not used for login. Remove them using the bag and saved-item controls, or by clearing this site’s browser data. When online checkout is available, Stripe processes payment and the store retains order details for fulfilment. The current preview does not collect payments. Support chat stores only the name and messages you choose to send. Do not send card details or sensitive personal information.'],
-  contact:['About Daliy Premium.','An independent collection of technology, personal care and everyday essentials. Customer support details, product specifications and stock availability are awaiting confirmation before checkout opens. You can browse the collection and save your favourites in the meantime.']
+  contact:['About Mello.','An independent collection of technology, personal care and everyday essentials. Customer support details, product specifications and stock availability are awaiting confirmation before checkout opens. You can browse the collection and save your favourites in the meantime.']
 };
 document.addEventListener('click',e=>{
   const b=e.target.closest('button,a');if(!b)return;
@@ -103,8 +103,9 @@ async function load(){
     const q=new URLSearchParams(location.search);filters.search=q.get('q')||'';filters.category=cats.includes(q.get('category'))?q.get('category'):'All products';filters.sort=['featured','price-low','price-high','name'].includes(q.get('sort'))?q.get('sort'):'featured';
     filters.savedOnly=q.get('saved')==='1';
     if($('search'))$('search').value=filters.search;if($('sort'))$('sort').value=filters.sort;
-    if($('heroCategories'))$('heroCategories').innerHTML=cats.map(c=>`<a href="#collection" data-category="${esc(c)}">${categoryArt[c]?`<span class="product-art art-${categoryArt[c]}" aria-hidden="true"></span>`:`<img class="category-image" src="${esc(products.find(p=>p.category===c)?.images[0]||'')}" alt="" loading="lazy">`}<span>${esc(c)}</span></a>`).join('');
-    document.querySelectorAll('.highlight-card[data-product],.feature-tile [data-product]').forEach(el=>{const p=products.find(p=>p.id===el.dataset.product);const tile=el.closest('.feature-tile')||el;tile.hidden=!p;if(p&&el.classList.contains('highlight-card')){el.setAttribute('aria-label','Explore '+p.name);if(p.managed)el.querySelector('strong').textContent=p.name;if(p.customImages){tile.querySelectorAll(':scope > .product-art,:scope > img').forEach(image=>image.hidden=true);const photo=document.createElement('img');photo.src=p.images[0];photo.alt='';photo.className='highlight-upload';tile.append(photo)}}});
+    if($('heroCategories'))$('heroCategories').innerHTML=cats.map(c=>{const p=products.find(p=>p.id===categoryCover[c]&&p.category===c)||products.find(p=>p.category===c);return `<a href="#collection" data-category="${esc(c)}">${p?.images[0]?`<img class="category-image" src="${esc(p.images[0])}" alt="">`:''}<span>${esc(c)}</span></a>`}).join('');
+    document.querySelectorAll('.highlight-card[data-product],.feature-tile [data-product]').forEach(el=>{const p=products.find(p=>p.id===el.dataset.product);const tile=el.closest('.feature-tile')||el;tile.hidden=!p;if(p&&el.classList.contains('highlight-card')){el.setAttribute('aria-label','Explore '+p.name);if(p.managed)el.querySelector('strong').textContent=p.name}});
+    document.querySelectorAll('[data-cover-product]').forEach(img=>{const p=products.find(p=>p.id===img.dataset.coverProduct);img.hidden=!p?.images[0];if(p?.images[0]){img.src=p.images[0];if(img.classList.contains('feature-cover'))img.alt=p.name}});
     document.querySelectorAll('[data-price]').forEach(el=>{const p=products.find(p=>p.id===el.dataset.price);if(p)el.textContent=money(p.price)});
     if($('loadError'))$('loadError').hidden=true;render();loadCheckoutConfig();checkPaymentReturn();
   }catch{if($('resultCount'))$('resultCount').textContent='Collection unavailable';if($('loadError'))$('loadError').hidden=false;if($('empty'))$('empty').hidden=true}

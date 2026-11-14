@@ -14,15 +14,15 @@ await writeFile(path.join(publicDir,'index.html'),template);
 const titles={contact:'Contact us',reviews:'Reviews — Design preview',account:'Your account',owner:'Owner dashboard','404':'Page not found'};
 for(const [page,title] of Object.entries(titles)){
  const main=await readFile(`src/pages/${page}.html`,'utf8');
- let html=template.replace(/<main id="top">[\s\S]*?<\/main>/,main).replace(/<title>.*?<\/title>/,`<title>${title} — Daliy Premium</title>`).replace(/href="#top"/g,'href="/"').replace(/<link rel="preload" as="image"[^>]+>/,'').replace('<body>',`<body data-page="${page}">`).replace(/href="#collection"/g,'href="/#collection"').replace('<a class="skip" href="/#collection">Skip to products</a>','<a class="skip" href="#top">Skip to content</a>');
- html=html.replace('content="Discover your next everyday favourite. Shop phones, audio, watches, smart glasses, hair care and fragrance at Daliy Premium."',`content="${title}. Daliy Premium customer support and shopping."`);
+ let html=template.replace(/<main id="top">[\s\S]*?<\/main>/,main).replace(/<title>.*?<\/title>/,`<title>${title} — Mello</title>`).replace(/href="#top"/g,'href="/"').replace(/<link rel="preload" as="image"[^>]+>/,'').replace('<body>',`<body data-page="${page}">`).replace(/href="#collection"/g,'href="/#collection"').replace('<a class="skip" href="/#collection">Skip to products</a>','<a class="skip" href="#top">Skip to content</a>');
+ html=html.replace('content="Discover your next everyday favourite. Shop phones, audio, watches, smart glasses, hair care and fragrance at Mello."',`content="${title}. Mello customer support and shopping."`);
  await writeFile(path.join(publicDir,`${page}.html`),html);
 }
 await writeFile(path.join(publicDir,'catalogue.json'),JSON.stringify(products));await cp('store/settings.json',path.join(publicDir,'settings.json'));
 await rm('dist',{recursive:true,force:true});
 if(process.argv.includes('--static')){await cp(publicDir,'dist',{recursive:true});await mkdir('dist/api',{recursive:true});await writeFile('dist/api/checkout-config',JSON.stringify({provider:'stripe',enabled:false,message:'Stripe checkout is not connected yet. Your bag is saved on this device.'}));console.log('Built static storefront; Sites chat requires the Worker deployment.');}
 else{
- const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.json':'application/json','.jpg':'image/jpeg','.webp':'image/webp','.svg':'image/svg+xml'};
+ const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp','.svg':'image/svg+xml'};
  const assets={};async function walk(dir){for(const item of await readdir(dir,{withFileTypes:true})){const file=path.join(dir,item.name);if(item.isDirectory())await walk(file);else assets['/'+path.relative(publicDir,file)]={type:types[path.extname(file)]||'application/octet-stream',data:(await readFile(file)).toString('base64')};}}await walk(publicDir);
  await writeFile('.openai/local/assets.json',JSON.stringify(assets));await mkdir('dist/server',{recursive:true});
  await build({entryPoints:['server/worker.mjs'],outfile:'dist/server/index.js',bundle:true,format:'esm',platform:'browser',target:'es2022',minify:true});
