@@ -7,8 +7,12 @@ if($('adminOrders')){
  let products=[],editing=null,photos=[],productDirty=false,productBusy=false,ordersPage=0,order=null,orderDirty=false,orderBusy=false,productsLoading=false,ordersLoading=false;
  const badge=s=>`<span class="admin-badge ${esc(s)}">${esc(s)}</span>`;
  function open(dialog){dialog.showModal();document.body.classList.add('dialog-open')}
- function closeProduct(){if(productBusy)return;if(productDirty&&!confirm('Discard unsaved product changes?'))return;productDirty=false;$('productEditor').close()}
- function closeOrder(){if(orderBusy)return;if(orderDirty&&!confirm('Discard unsaved order changes?'))return;orderDirty=false;$('orderDetail').close()}
+ let discardAction=null;
+ function confirmDiscard(action){discardAction=action;open($('discardAdminChanges'))}
+ $('keepAdminEditing').onclick=()=>{$('discardAdminChanges').close();discardAction=null};
+ $('discardAdminEditing').onclick=()=>{const action=discardAction;discardAction=null;$('discardAdminChanges').close();action?.()};
+ function closeProduct(){if(productBusy)return;const finish=()=>{productDirty=false;$('productEditor').close()};if(productDirty)confirmDiscard(finish);else finish()}
+ function closeOrder(){if(orderBusy)return;const finish=()=>{orderDirty=false;$('orderDetail').close()};if(orderDirty)confirmDiscard(finish);else finish()}
  $('closeProductEditor').onclick=closeProduct;$('closeOrderDetail').onclick=closeOrder;
  $('productEditor').addEventListener('cancel',e=>{e.preventDefault();closeProduct()});$('orderDetail').addEventListener('cancel',e=>{e.preventDefault();closeOrder()});
  window.addEventListener('beforeunload',e=>{if(productDirty||orderDirty||productBusy||orderBusy){e.preventDefault();e.returnValue=''}});
