@@ -19,6 +19,7 @@ function counts(){
 }
 function persist(){save('daliy-bag-v1',bag);counts()}
 function render(){
+  if(!$('productGrid')){counts();return}
   const items=filterProducts(products,{...filters,saved});
   if(filters.sort==='featured')items.sort((a,b)=>displayOrder.indexOf(a.id)-displayOrder.indexOf(b.id));
   $('resultCount').textContent=`${items.length} ${items.length===1?'product':'products'}`;
@@ -33,7 +34,7 @@ function render(){
   $('filterSummary').textContent=[filters.savedOnly?'Saved products':'',filters.category!=='All products'?filters.category:'',filters.search?`“${filters.search}”`:''].filter(Boolean).join(' · ');
   counts();
 }
-function url(){const p=new URLSearchParams();if(filters.search)p.set('q',filters.search);if(filters.category!=='All products')p.set('category',filters.category);if(filters.sort!=='featured')p.set('sort',filters.sort);history.replaceState(null,'',location.pathname+(p.size?'?'+p:'')+'#collection')}
+function url(){const p=new URLSearchParams();if(filters.search)p.set('q',filters.search);if(filters.category!=='All products')p.set('category',filters.category);if(filters.sort!=='featured')p.set('sort',filters.sort);if(filters.savedOnly)p.set('saved','1');history.replaceState(null,'',location.pathname+(p.size?'?'+p:'')+'#collection')}
 function reset(){filters={search:'',category:'All products',sort:'featured',savedOnly:false};$('search').value='';$('sort').value='featured';render();url()}
 function show(id){if(!$(id).open){$(id).showModal();document.body.classList.add('dialog-open')}}
 function closeMenu(){$('mainNav').classList.remove('open');$('menuToggle').setAttribute('aria-expanded','false');$('menuToggle').setAttribute('aria-label','Open navigation')}
@@ -66,11 +67,12 @@ function openBag(){renderBag();show('bagDialog')}
 const info={
   delivery:['Delivery & returns','Estimated delivery is 14 days after dispatch. Delivery times may vary by destination. Destinations, delivery charges and return terms will be confirmed before online checkout opens. Adding a product to your bag does not reserve stock or place an order.'],
   discount:['A little extra, with your code.','Have a discount code? Discount codes will be available when checkout and promotions are activated. Any eligible discount and its conditions will appear before you pay. No promotional code is currently advertised by this store.'],
-  privacy:['Your privacy.','Your shopping bag and saved products are stored locally in this browser. Remove them using the bag and saved-item controls, or by clearing this site’s browser data. When online checkout is available, Stripe processes payment and the store retains order details for fulfilment. The current preview does not collect payment or contact details.'],
+  privacy:['Your privacy.','Your shopping bag and saved products are stored locally in this browser. Support chat messages are stored on the store’s server so the owner can reply. Guest chats use a private browser cookie for up to 30 days; signed-in conversations are associated with your account. IP addresses are not used for login. Remove them using the bag and saved-item controls, or by clearing this site’s browser data. When online checkout is available, Stripe processes payment and the store retains order details for fulfilment. The current preview does not collect payments. Support chat stores only the name and messages you choose to send. Do not send card details or sensitive personal information.'],
   contact:['About Daliy Premium.','An independent collection of technology, personal care and everyday essentials. Customer support details, product specifications and stock availability are awaiting confirmation before checkout opens. You can browse the collection and save your favourites in the meantime.']
 };
 document.addEventListener('click',e=>{
   const b=e.target.closest('button,a');if(!b)return;
+  if(!$('collection')&&(b.hasAttribute('data-all')||b.dataset.category)){e.preventDefault();location.href='/'+(b.dataset.category?'?category='+encodeURIComponent(b.dataset.category):'')+'#collection';return}
   if(b.hasAttribute('data-all')){e.preventDefault();reset();$('collection').scrollIntoView();closeMenu()}
   if(b.dataset.category){e.preventDefault();filters.category=b.dataset.category;filters.savedOnly=false;filters.search='';$('search').value='';render();$('collection').scrollIntoView({behavior:'auto'});url();closeMenu()}
   if(b.dataset.product)product(b.dataset.product);
@@ -80,14 +82,14 @@ document.addEventListener('click',e=>{
   if(b.dataset.qty){const l=bag.find(l=>lineKey(l)===b.dataset.key);if(l)l.qty=Math.max(1,Math.min(99,l.qty+Number(b.dataset.qty)));persist();renderBag()}
   if(b.dataset.info){const [t,x]=info[b.dataset.info];$('infoTitle').textContent=t;$('infoText').textContent=x;show('infoDialog')}
 });
-$('search').oninput=()=>{filters.search=$('search').value;render();url()};
-$('sort').onchange=()=>{filters.sort=$('sort').value;render();url()};
-$('clearFilters').onclick=reset;$('resetSearch').onclick=reset;$('bagOpen').onclick=openBag;$('footerBag').onclick=openBag;
-$('savedToggle').onclick=()=>{filters.savedOnly=!filters.savedOnly;filters.search='';filters.category='All products';$('search').value='';render();url();$('collection').scrollIntoView({behavior:'auto'})};
-$('searchOpen').onclick=()=>{closeMenu();$('collection').scrollIntoView({behavior:'auto'});$('search').focus({preventScroll:true})};
+if($('search'))$('search').oninput=()=>{filters.search=$('search').value;render();url()};
+if($('sort'))$('sort').onchange=()=>{filters.sort=$('sort').value;render();url()};
+if($('clearFilters'))$('clearFilters').onclick=reset;if($('resetSearch'))$('resetSearch').onclick=reset;$('bagOpen').onclick=openBag;if($('footerBag'))$('footerBag').onclick=openBag;
+$('savedToggle').onclick=()=>{if(!$('collection')){location.href='/?saved=1#collection';return}filters.savedOnly=!filters.savedOnly;filters.search='';filters.category='All products';$('search').value='';render();url();$('collection').scrollIntoView({behavior:'auto'})};
+$('searchOpen').onclick=()=>{if(!$('collection')){location.href='/#collection';return}closeMenu();$('collection').scrollIntoView({behavior:'auto'});$('search').focus({preventScroll:true})};
 $('menuToggle').onclick=()=>{const open=$('mainNav').classList.toggle('open');$('menuToggle').setAttribute('aria-expanded',open);$('menuToggle').setAttribute('aria-label',open?'Close navigation':'Open navigation')};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
-$('retry').onclick=load;
+if($('retry'))$('retry').onclick=load;
 for(const d of document.querySelectorAll('dialog')){
   d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close()}});
   d.addEventListener('close',()=>{if(!document.querySelector('dialog[open]'))document.body.classList.remove('dialog-open')});
@@ -98,11 +100,12 @@ async function load(){
     [products,settings]=await Promise.all(r.map(x=>x.json()));bag=normalizeBag(read('daliy-bag-v1',[]),products);
     const stored=read('daliy-saved-v1',[]);saved=Array.isArray(stored)?[...new Set(stored.filter(id=>products.some(p=>p.id===id)))]:[];
     const q=new URLSearchParams(location.search);filters.search=q.get('q')||'';filters.category=cats.includes(q.get('category'))?q.get('category'):'All products';filters.sort=['featured','price-low','price-high','name'].includes(q.get('sort'))?q.get('sort'):'featured';
-    $('search').value=filters.search;$('sort').value=filters.sort;
-    $('heroCategories').innerHTML=cats.map(c=>`<a href="#collection" data-category="${c}"><span class="product-art art-${categoryArt[c]}" aria-hidden="true"></span><span>${c}</span></a>`).join('');
+    filters.savedOnly=q.get('saved')==='1';
+    if($('search'))$('search').value=filters.search;if($('sort'))$('sort').value=filters.sort;
+    if($('heroCategories'))$('heroCategories').innerHTML=cats.map(c=>`<a href="#collection" data-category="${c}"><span class="product-art art-${categoryArt[c]}" aria-hidden="true"></span><span>${c}</span></a>`).join('');
     document.querySelectorAll('[data-price]').forEach(el=>{const p=products.find(p=>p.id===el.dataset.price);if(p)el.textContent=money(p.price)});
-    $('loadError').hidden=true;render();loadCheckoutConfig();checkPaymentReturn();
-  }catch{$('resultCount').textContent='Collection unavailable';$('loadError').hidden=false;$('empty').hidden=true}
+    if($('loadError'))$('loadError').hidden=true;render();loadCheckoutConfig();checkPaymentReturn();
+  }catch{if($('resultCount'))$('resultCount').textContent='Collection unavailable';if($('loadError'))$('loadError').hidden=false;if($('empty'))$('empty').hidden=true}
 }
 window.addEventListener('storage',e=>{
   if(e.key==='daliy-bag-v1'){bag=normalizeBag(read(e.key,[]),products);counts();if($('bagDialog').open)renderBag()}
