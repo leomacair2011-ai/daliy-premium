@@ -128,3 +128,15 @@ async function checkPaymentReturn(){const q=new URLSearchParams(location.search)
  $('infoTitle').textContent='Payment status';$('infoText').textContent='Checking your payment with the store…';show('infoDialog');
  try{const r=await fetch('/api/payment-status?session_id='+encodeURIComponent(id));if(!r.ok)throw Error();const data=await r.json();if(data.status==='paid'){$('infoText').textContent='Your payment is confirmed. Your order has been received.';const pending=read('daliy-pending-purchase',{});if(pending.sessionId===id&&Array.isArray(pending.items)){bag=bag.map(l=>({...l,qty:l.qty-(pending.items.find(x=>lineKey(x)===lineKey(l))?.qty||0)})).filter(l=>l.qty>0);persist();save('daliy-pending-purchase',{});save('daliy-checkout-attempt',{})}}else $('infoText').textContent=data.status==='failed'?'Payment was not completed. Your bag has been kept.':'Your payment is awaiting confirmation. Please check your Stripe receipt before trying to pay again.'}catch{$('infoText').textContent='Payment status could not be checked. Please check your Stripe receipt before trying to pay again.'}
 }
+
+// Native horizontal browsing also supports explicit controls and keyboard navigation.
+const highlightsRail=$('highlightsRail');
+if(highlightsRail){
+  const railButtons=[...document.querySelectorAll('[data-rail-step]')];
+  const updateRail=()=>{const end=highlightsRail.scrollWidth-highlightsRail.clientWidth;railButtons.forEach(b=>{b.disabled=Number(b.dataset.railStep)<0?highlightsRail.scrollLeft<=2:highlightsRail.scrollLeft>=end-2})};
+  const moveRail=direction=>{const card=highlightsRail.querySelector('.highlight-card');const gap=parseFloat(getComputedStyle(highlightsRail).gap)||20;highlightsRail.scrollBy({left:direction*(card.getBoundingClientRect().width+gap),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'})};
+  railButtons.forEach(b=>b.addEventListener('click',()=>moveRail(Number(b.dataset.railStep))));
+  highlightsRail.addEventListener('scroll',updateRail,{passive:true});
+  highlightsRail.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();moveRail(e.key==='ArrowRight'?1:-1)}});
+  new ResizeObserver(updateRail).observe(highlightsRail);updateRail();
+}

@@ -1,11 +1,16 @@
 import {mkdir,cp,readFile,writeFile,readdir,rm} from 'node:fs/promises';
 import path from 'node:path';
 import {build} from 'esbuild';
+import {createHash} from 'node:crypto';
 const products=JSON.parse(await readFile('store/products.json'));
 const ids=new Set();for(const p of products){if(ids.has(p.id)||!p.name||!p.sourceUrl||!p.variants.length)throw Error('Invalid product '+p.id);ids.add(p.id);for(const v of p.variants)if(!Number.isSafeInteger(Math.round(v.price*100))||v.price<=0)throw Error('Invalid price');}
 const publicDir='.openai/local/public';await rm(publicDir,{recursive:true,force:true});await mkdir(publicDir,{recursive:true});
 await cp('src',publicDir,{recursive:true});await rm(path.join(publicDir,'pages'),{recursive:true,force:true});
-const template=await readFile('src/index.html','utf8');
+const revision=createHash('sha256');
+for(const name of ['app.js','cart.mjs','support.js','styles.css','support.css','storefront.css'])revision.update(await readFile('src/'+name));
+const assetVersion=revision.digest('hex').slice(0,12);
+const template=(await readFile('src/index.html','utf8')).replace(/(src|href)="(\.\/[^"]+\.(?:js|css))"/g,`$1="$2?v=${assetVersion}"`);
+await writeFile(path.join(publicDir,'index.html'),template);
 const titles={contact:'Contact us',reviews:'Reviews — Design preview',account:'Your account',owner:'Owner dashboard','404':'Page not found'};
 for(const [page,title] of Object.entries(titles)){
  const main=await readFile(`src/pages/${page}.html`,'utf8');
