@@ -38,3 +38,7 @@ The browser saves shopping bag and favourites locally, separately from Apex Acce
 Contact, accounts, owner dashboard and chat: `docs/live-chat.md`. Preview reviews are clearly labelled fictional samples.
 
 Research: `docs/design-research.md`. Tests cover catalogue integrity, invalid stored basket data, numerical totals, filter combinations and the paused checkout state.
+
+## Admin uploads and orders
+
+The owner dashboard now includes **Products**, **Orders**, and **Messages**. Product photos are stored in R2 and listings in D1; changes are available without rebuilding. Orders retain their purchase-time details and support private notes, tracking references and fulfilment status updates. See [the admin guide](docs/admin-guide.md) for daily use and the remaining Stripe launch requirements.

@@ -8,6 +8,13 @@
       "when": 1794640087465,
       "tag": "0000_groovy_korvac",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1794660699950,
+      "tag": "0001_warm_wrecker",
+      "breakpoints": true
     }
   ]
 }

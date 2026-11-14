@@ -9,7 +9,7 @@ let products=[],settings={},bag=[],saved=[],timer;
 let filters={search:'',category:'All products',sort:'featured',savedOnly:false};
 const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{toast('Browser storage is unavailable. Keep this page open to retain your bag.')}};
 const heart='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>';
-const art=p=>`<span class="product-art art-${esc(p.studioArt)}" role="img" aria-label="Styled image of ${esc(p.name)}"></span>`;
+const art=p=>(p.customImages||!p.studioArt)&&p.images?.length?`<img class="catalogue-photo" src="${esc(p.images[0])}" alt="${esc(p.name)}" loading="lazy">`:`<span class="product-art art-${esc(p.studioArt)}" role="img" aria-label="Styled image of ${esc(p.name)}"></span>`;
 function toast(t){$('toast').textContent=t;$('toast').classList.add('visible');clearTimeout(timer);timer=setTimeout(()=>$('toast').classList.remove('visible'),3500)}
 function counts(){
   const n=bag.reduce((n,l)=>n+l.qty,0);
@@ -43,12 +43,12 @@ function product(id){
   $('productContent').innerHTML=`<div class="detail-layout"><div class="detail-gallery">
     <div class="detail-image-wrap"><img id="detailImage" class="detail-image" src="${esc(p.images[0])}" alt="${esc(p.name)} — supplier photo 1" width="700" height="700"></div>
     <div class="gallery-thumbs" aria-label="Product photos">${p.images.map((src,i)=>`<button class="gallery-thumb" data-photo="${i}" aria-label="View product photo ${i+1}" aria-pressed="${i===0}"><img src="${esc(src)}" alt="" width="62" height="62"></button>`).join('')}</div>
-    <p class="gallery-caption">Original supplier photography · <span id="photoNumber">1</span> / ${p.images.length}</p>
+    <p class="gallery-caption">${p.customImages?'Product photography':'Original supplier photography'} · <span id="photoNumber">1</span> / ${p.images.length}</p>
   </div><div class="detail-body"><p class="eyebrow">${esc(p.category)}</p><h2 id="productTitle">${esc(p.name)}</h2><p class="detail-price" id="optionPrice">${money(p.variants[0].price)}</p><p class="detail-note">Selected pack price · GBP</p>
     <label class="option-label" for="variant">Choose your option.</label><select id="variant" class="option-select">${p.variants.map(v=>`<option value="${v.id}">${esc(v.label)} — ${money(v.price)}</option>`).join('')}</select>
     <div class="quantity-row"><span>Quantity of packs</span><div class="stepper"><button id="qtyDown" aria-label="Decrease quantity">−</button><input id="quantity" type="number" min="1" max="99" value="1" inputmode="numeric" aria-label="Quantity of packs"><button id="qtyUp" aria-label="Increase quantity">+</button></div></div>
-    <button id="addBag" class="primary">Add to bag</button><p class="detail-status">Save your selection now. Stock is awaiting confirmation before orders open.</p>
-    <details><summary>Product information</summary><p>${esc(p.name)}. Choose from the listed pack and colour options. Product names, photos and specifications follow the supplier’s listing and are awaiting seller confirmation.</p></details>
+    <button id="addBag" class="primary">Add to bag</button><p class="detail-status">${p.availability==='available'?'Your selected option is saved in your bag. Checkout availability is shown before payment.':'Save your selection now. Stock is awaiting confirmation before orders open.'}</p>
+    <details><summary>Product information</summary><p>${esc(p.description||p.name)}</p></details>
     <details><summary>Delivery & returns</summary><p>Estimated delivery: 14 days after dispatch. Final destinations, charges and return terms will be confirmed before checkout opens. Adding to your bag does not reserve stock or place an order.</p></details>
   </div></div>`;
   document.querySelectorAll('[data-photo]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.photo);$('detailImage').src=p.images[i];$('detailImage').alt=`${p.name} — supplier photo ${i+1}`;$('photoNumber').textContent=i+1;document.querySelectorAll('[data-photo]').forEach(t=>t.setAttribute('aria-pressed',t===b))});
@@ -91,7 +91,7 @@ $('menuToggle').onclick=()=>{const open=$('mainNav').classList.toggle('open');$(
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
 if($('retry'))$('retry').onclick=load;
 for(const d of document.querySelectorAll('dialog')){
-  d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close()}});
+  d.addEventListener('click',e=>{if(e.target===d&&!d.classList.contains('admin-dialog')){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close()}});
   d.addEventListener('close',()=>{if(!document.querySelector('dialog[open]'))document.body.classList.remove('dialog-open')});
 }
 async function load(){
@@ -103,6 +103,7 @@ async function load(){
     filters.savedOnly=q.get('saved')==='1';
     if($('search'))$('search').value=filters.search;if($('sort'))$('sort').value=filters.sort;
     if($('heroCategories'))$('heroCategories').innerHTML=cats.map(c=>`<a href="#collection" data-category="${c}"><span class="product-art art-${categoryArt[c]}" aria-hidden="true"></span><span>${c}</span></a>`).join('');
+    document.querySelectorAll('.highlight-card[data-product],.feature-tile [data-product]').forEach(el=>{const p=products.find(p=>p.id===el.dataset.product);const tile=el.closest('.feature-tile')||el;tile.hidden=!p;if(p&&el.classList.contains('highlight-card')){el.setAttribute('aria-label','Explore '+p.name);if(p.managed)el.querySelector('strong').textContent=p.name;if(p.customImages){tile.querySelectorAll(':scope > .product-art,:scope > img').forEach(image=>image.hidden=true);const photo=document.createElement('img');photo.src=p.images[0];photo.alt='';photo.className='highlight-upload';tile.append(photo)}}});
     document.querySelectorAll('[data-price]').forEach(el=>{const p=products.find(p=>p.id===el.dataset.price);if(p)el.textContent=money(p.price)});
     if($('loadError'))$('loadError').hidden=true;render();loadCheckoutConfig();checkPaymentReturn();
   }catch{if($('resultCount'))$('resultCount').textContent='Collection unavailable';if($('loadError'))$('loadError').hidden=false;if($('empty'))$('empty').hidden=true}

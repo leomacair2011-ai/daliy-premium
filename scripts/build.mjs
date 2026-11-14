@@ -7,7 +7,7 @@ const ids=new Set();for(const p of products){if(ids.has(p.id)||!p.name||!p.sourc
 const publicDir='.openai/local/public';await rm(publicDir,{recursive:true,force:true});await mkdir(publicDir,{recursive:true});
 await cp('src',publicDir,{recursive:true});await rm(path.join(publicDir,'pages'),{recursive:true,force:true});
 const revision=createHash('sha256');
-for(const name of ['app.js','cart.mjs','support.js','styles.css','support.css','storefront.css'])revision.update(await readFile('src/'+name));
+for(const name of ['app.js','cart.mjs','support.js','styles.css','support.css','storefront.css','admin.css','admin.js'])revision.update(await readFile('src/'+name));
 const assetVersion=revision.digest('hex').slice(0,12);
 const template=(await readFile('src/index.html','utf8')).replace(/(src|href)="(\.\/[^"]+\.(?:js|css))"/g,`$1="$2?v=${assetVersion}"`);
 await writeFile(path.join(publicDir,'index.html'),template);

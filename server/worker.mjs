@@ -1,9 +1,10 @@
+import {adminAPI} from './admin.mjs';
+import {paymentsAPI} from './payments.mjs';
 import {supportAPI,identity} from './support.mjs';
 import assets from '../.openai/local/assets.json' with {type:'json'};
 const headers={'X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin','Content-Security-Policy':"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://checkout.stripe.com; frame-ancestors 'self' https://chatgpt.com https://*.chatgpt.com",'Permissions-Policy':'camera=(), microphone=(), geolocation=()'};
 export default {async fetch(request,env){
- const url=new URL(request.url);if(url.pathname.length>1&&url.pathname.endsWith('/')&&['GET','HEAD'].includes(request.method))return Response.redirect(url.origin+url.pathname.replace(/\/$/,'')+url.search,301);const api=await supportAPI(request,env);if(api){Object.entries(headers).forEach(([k,v])=>api.headers.set(k,v));return api}
- if(url.pathname==='/api/checkout-config')return Response.json({provider:'stripe',enabled:false,message:'Stripe checkout is not connected yet. Your bag is saved on this device.'},{headers:{...headers,'Cache-Control':'no-store'}});
+ const url=new URL(request.url);if(url.pathname.length>1&&url.pathname.endsWith('/')&&['GET','HEAD'].includes(request.method))return Response.redirect(url.origin+url.pathname.replace(/\/$/,'')+url.search,301);const api=await adminAPI(request,env)||await paymentsAPI(request,env)||await supportAPI(request,env);if(api){Object.entries(headers).forEach(([k,v])=>api.headers.set(k,v));return api}
  if(url.pathname.startsWith('/api/'))return Response.json({error:'Not found.'},{status:404,headers});
  if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405,headers});
  let path=url.pathname.replace(/\/$/,'')||'/';
