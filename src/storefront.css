@@ -38,3 +38,11 @@ footer{background:#f5f5f7}.footer-inner{max-width:1184px;padding-inline:32px}.fo
 .footer-top .mello-logo{width:136px;height:66px}
 .chat-heading .chat-avatar.mello-logo{width:66px;height:34px;border-radius:6px;background:#000;padding:0}
 .chat-avatar.mello-logo img{mix-blend-mode:normal}
+
+/* Behaviour-only accessibility and semantic-link parity. */
+a.card-open{display:block;color:inherit;text-align:inherit}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* WCAG contrast correction: same grey palette, two text tones only. */
+.fragrance-tile .feature-copy .eyebrow{color:#68686d}
+.image-note{color:#6b6b70}

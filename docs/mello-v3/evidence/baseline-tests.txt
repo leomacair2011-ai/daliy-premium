@@ -1,0 +1,44 @@
+
+> daliy-premium@1.0.0 test
+> node --test tests/*.test.mjs
+
+✔ all admin endpoints reject guests and customers; writes require same origin (7.924084ms)
+✔ uploads persist, drafts stay private, publication updates catalogue and archived photos become private (6.617875ms)
+✔ upload rejects disguised SVG, oversized content and mismatched types (1.776875ms)
+✔ product validates prices, stock, image references and prevents lost updates (2.8605ms)
+✔ order dashboard shows Stripe-confirmed orders and stores fulfilment without altering payment (3.441625ms)
+✔ order pagination and search do not leak records or interpret SQL (1.4565ms)
+✔ custom categories persist and are safely returned as plain catalogue text (1.826417ms)
+✔ public checkout status exposes provider readiness without secrets (4.70475ms)
+✔ activation and fulfilment flags cannot substitute for account and shipping configuration (0.154834ms)
+✔ wrong merchant account is rejected before an order is created (0.982875ms)
+✔ nine unique products with all options and supplier photos (1.233541ms)
+✔ reject invalid lines, merge duplicates, cap quantities (0.720166ms)
+✔ recalculate from catalogue, not saved price (0.155708ms)
+✔ combine filters and sort numerically (0.206125ms)
+✔ checkout is explicitly paused (6.015334ms)
+✔ all supplier and studio assets are local and available (5.710875ms)
+✔ catalogue price overrides client price and selected options remain attached (1.437833ms)
+✔ rejects absent options, invalid quantities, unknown products and over-stock split lines (0.383208ms)
+✔ payments cannot start without keys and explicit activation (3.376709ms)
+✔ checkout creates server-priced USD session with selected plan and retry key (8.071291ms)
+✔ webhooks verify signatures and record only paid matching totals (9.03025ms)
+✔ size stock is enforced per colour and size, including repeated basket lines (0.27925ms)
+✔ mixed baskets collect a shipping address and reconcile the shipping charge; digital orders do not (1.310458ms)
+✔ restored GBP clothing prices are charged and recorded in pounds (0.929333ms)
+✔ owner routes reject anonymous and customer accounts; account identity is server-derived (40.334041ms)
+✔ customer conversations are isolated; caller cannot select another thread (8.171959ms)
+✔ guest session uses an opaque secure cookie and does not trust IP addresses (11.696292ms)
+✔ retries are idempotent and conflicting payloads are rejected (3.299042ms)
+✔ owner replies reach the correct visitor, unread counts clear, and closed chats reopen (3.5885ms)
+✔ availability requires explicit owner status and a recent heartbeat (1.827ms)
+✔ cross-site writes, invalid content, and excessive messages are rejected (5.639083ms)
+✔ missing database fails honestly without pretending a message was sent (0.275792ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 286.327708

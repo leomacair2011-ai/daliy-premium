@@ -1,0 +1,11 @@
+# Security and accessibility final bounded review
+
+Source threat findings: security-commerce-audit.md. Independent specialist audit preceded implementation; final independent retest was interrupted by account usage limits. The orchestrator's subsequent tests are not a substitute for independent sign-off.
+
+Security improvement: Worker now stream-bounds API request bodies at6MiB, including absent/dishonest Content-Length. Four tests verify cap rejection, exact Stripe-signature body bytes and safe GET/empty handling; built Worker test confirms413. Existing per-endpoint limits remain. No auth/payment account/state transition changed. Live rollout requires independent review. Existing raw-upload validation still checks signatures rather than complete decode/dimensions; anonymous chat rate limits remain per conversation; edge identity-header enforcement and retention policy need verification. These are tracked, not declared fixed.
+
+Dependency audit (registry query succeeded):0 critical,0 high,4 moderate entries in the development Drizzle→esbuild-kit→old esbuild chain, one underlying development-server advisory. No `npm audit fix --force` downgrade applied. Root production esbuild is0.28.2; audit lists a separate nested version. No formal penetration test performed.
+
+Lighthouse automated accessibility baseline96→100 on desktop/mobile home; tested new product, contact and reviews also100. Fixed insufficient contrast on fragrance eyebrow and footer image note using minimally darker grey; removed accessible-name overrides that omitted visible label content; search result count has polite status semantics; keyboard category filter retains focus after re-render; reduced-motion disables smooth scroll/animations/transitions. Retained layout, logo and palette otherwise.
+
+Manual local checks: select pack by native select, adjust quantity, add/bag persistence, keyboard removal via Enter, Escape close, mobile menu expand/Escape collapse, visible no-overflow mobile state. No full VoiceOver/NVDA, zoom400%, switch control, low-vision participant or exhaustive WCAG2.2 audit completed. Lighthouse100 is not WCAG certification. Checkout accessibility remains unverified because genuine checkout was not enabled/tested.

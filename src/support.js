@@ -15,15 +15,6 @@ function mountChat(){
 }
 async function openChat(){if(!$('chatDialog').open)$('chatDialog').showModal();document.body.classList.add('dialog-open');await refreshChat();$('chatBody').focus()}
 async function refreshChat(){if(chatLoad)return;chatLoad=true;try{const x=await api('/api/chat/thread');available(x.online);renderMessages($('chatMessages'),x.messages);if(x.thread&&!$('chatName').value)$('chatName').value=x.thread.name==='Guest'?'':x.thread.name}catch(e){$('chatStatus').textContent=e.message}finally{chatLoad=false}}
-const samples=[
- {name:'Alex M.',category:'Audio',product:'AirPods Pro 3',rating:5,title:'An easy everyday choice.',quote:'The clean product page made it easy to compare the pack options. I liked having everything in one place.',colour:'blue'},
- {name:'Jamie R.',category:'Phones',product:'iPhone 18 Pro Max',rating:5,title:'Clear from the first click.',quote:'Choosing a colour and checking the pack price felt straightforward. The shopping experience was calm and simple.',colour:'purple'},
- {name:'Morgan T.',category:'Lifestyle',product:'Pacific Chill',rating:4,title:'The little details matter.',quote:'A lovely-looking collection. I would use the contact page to ask a few questions before choosing my next fragrance.',colour:'green'},
- {name:'Taylor S.',category:'Audio',product:'AirPods Pro Max 2',rating:5,title:'A better way to browse.',quote:'The photography caught my attention, and saving a favourite made it easy to come back and take another look.',colour:'peach'},
- {name:'Casey L.',category:'Lifestyle',product:'Dyson HS08',rating:5,title:'Everything feels considered.',quote:'The product gallery and simple layout helped me explore the details without feeling overwhelmed.',colour:'blue'},
- {name:'Jordan P.',category:'Phones',product:'Samsung Galaxy S26 Ultra',rating:4,title:'A simple shortlist.',quote:'I could save the products I liked, compare the listed prices, and keep my selection together in the bag.',colour:'purple'}
-];
-function renderReviews(){if(!$('reviewGrid'))return;const filter=$('reviewFilter').value;const items=samples.filter(r=>filter==='all'||r.category===filter);$('reviewGrid').innerHTML=items.map(r=>`<article class="review-card"><div class="review-top"><span class="review-avatar ${r.colour}" aria-hidden="true">${r.name[0]}</span><div><h3>${r.name}</h3><p>Fictional preview profile</p></div><span class="sample-label">SAMPLE</span></div><div class="review-stars" aria-label="Sample rating: ${r.rating} out of 5">${'★'.repeat(r.rating)}<span>${'☆'.repeat(5-r.rating)}</span></div><h4>${r.title}</h4><blockquote>“${r.quote}”</blockquote><p class="review-product">${r.product}</p><p class="fictional-note">Fictional review · for design preview only</p></article>`).join('')}
 async function loadAccount(){
  try{me=await api('/api/me');document.querySelectorAll('a[href="/account"]').forEach(el=>{if(me.isOwner)el.setAttribute('aria-label','Your account and owner dashboard')});
  if(!$('accountContent'))return;
@@ -43,7 +34,7 @@ function setupOwner(){if(!$('inboxList'))return;
  $('ownerReply').onsubmit=async e=>{e.preventDefault();if(ownerBusy||!ownerThread)return;const body=$('replyBody').value.trim();if(!body)return;const id=ownerThread,signature=id+'|'+body;if(replySignature!==signature){replySignature=signature;replyRequest=crypto.randomUUID()}ownerBusy=true;const b=$('ownerReply').querySelector('[type=submit]');b.disabled=true;$('replyStatus').textContent='Sending…';try{await api('/api/owner/reply',{id,body,requestId:replyRequest});$('replyBody').value='';replyRequest=null;replySignature='';$('replyStatus').textContent='Reply sent.';await refreshOwnerThread();await refreshInbox()}catch(e){$('replyStatus').textContent=e.message}finally{ownerBusy=false;b.disabled=false}};
  refreshInbox();
 }
-mountChat();loadAccount();setupOwner();renderReviews();$('reviewFilter')?.addEventListener('change',renderReviews);
+mountChat();loadAccount();setupOwner();
 $('copyPhone')?.addEventListener('click',async()=>{try{await navigator.clipboard.writeText('+447436563406');$('copyPhone').textContent='Copied'}catch{$('copyPhone').textContent='Select +44 7436 563406 to copy'}});
 if(document.querySelector('[data-chat-status]'))refreshChat();
 setInterval(()=>{if(document.hidden)return;if($('chatDialog').open)refreshChat();if($('inboxList')){refreshInbox();refreshOwnerThread()}},5000);

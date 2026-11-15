@@ -6,7 +6,7 @@ let cats=[...defaultCategories];
 const categoryCover={'Phones':'daily-7720735','Audio':'daily-7730237','Smart glasses':'daily-7730224','Watches':'daily-7720703','Hair care':'daily-7720742','Fragrance':'daily-7720734'};
 const displayOrder=['daily-7720735','daily-7730237','daily-7720755','daily-7730224','daily-7720703','daily-7730272','daily-7720742','daily-7730280','daily-7720734'];
 const read=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}};
-let products=[],settings={},bag=[],saved=[],timer;
+let products=[],settings={checkoutEnabled:false,checkoutMessage:'Online checkout is currently unavailable. Please contact us about your selection.'},bag=[],saved=[],timer;
 let filters={search:'',category:'All products',sort:'featured',savedOnly:false};
 const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{toast('Browser storage is unavailable. Keep this page open to retain your bag.')}};
 const heart='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>';
@@ -21,6 +21,7 @@ function counts(){
 function persist(){save('daliy-bag-v1',bag);counts()}
 function render(){
   if(!$('productGrid')){counts();return}
+  const focusedFilter=document.activeElement?.closest('#filters button')?.dataset.category;
   const items=filterProducts(products,{...filters,saved});
   if(filters.sort==='featured')items.sort((a,b)=>displayOrder.indexOf(a.id)-displayOrder.indexOf(b.id));
   $('resultCount').textContent=`${items.length} ${items.length===1?'product':'products'}`;
@@ -28,12 +29,13 @@ function render(){
   $('empty').hidden=!!items.length;
   $('productGrid').innerHTML=items.map(p=>`<article class="product-card">
     <button class="save" data-save="${p.id}" aria-label="${saved.includes(p.id)?'Unsave':'Save'} ${esc(p.name)}" aria-pressed="${saved.includes(p.id)}">${heart}</button>
-    <button class="card-open" data-product="${p.id}" aria-label="View ${esc(p.name)}"><p class="card-category">${esc(p.category)}</p><h3>${esc(p.name)}</h3>${art(p)}</button>
+    <a class="card-open" href="/products/${encodeURIComponent(p.id)}" data-product="${p.id}"><p class="card-category">${esc(p.category)}</p><h3>${esc(p.name)}</h3>${art(p)}</a>
     <div class="card-bottom"><div><span class="card-price">From ${money(p.price)}</span><span class="card-option-note">${p.variants.length===1?'One option':p.variants.length+' pack & colour options'}</span></div><button class="primary" data-product="${p.id}" aria-label="Shop ${esc(p.name)}">Shop</button></div>
   </article>`).join('');
   $('activeFilters').hidden=!(filters.search||filters.category!=='All products'||filters.savedOnly);
   $('filterSummary').textContent=[filters.savedOnly?'Saved products':'',filters.category!=='All products'?filters.category:'',filters.search?`“${filters.search}”`:''].filter(Boolean).join(' · ');
   counts();
+  if(focusedFilter) [...$('filters').querySelectorAll('button')].find(b=>b.dataset.category===focusedFilter)?.focus({preventScroll:true});
 }
 function url(){const p=new URLSearchParams();if(filters.search)p.set('q',filters.search);if(filters.category!=='All products')p.set('category',filters.category);if(filters.sort!=='featured')p.set('sort',filters.sort);if(filters.savedOnly)p.set('saved','1');history.replaceState(null,'',location.pathname+(p.size?'?'+p:'')+'#collection')}
 function reset(){filters={search:'',category:'All products',sort:'featured',savedOnly:false};$('search').value='';$('sort').value='featured';render();url()}
@@ -61,7 +63,7 @@ function product(id){
 }
 function renderBag(){
   $('bagItems').innerHTML=bag.length?bag.map(l=>{const p=products.find(p=>p.id===l.id),v=p.variants.find(v=>v.id===l.variantId);return `<article class="bag-item"><div class="bag-item-top"><div class="bag-art">${art(p)}</div><div><h3>${esc(p.name)}</h3><p>${esc(v.label)}<br>${money(v.price)} per pack</p></div></div><div class="bag-item-bottom"><div class="stepper"><button data-qty="-1" data-key="${lineKey(l)}" aria-label="Decrease ${esc(p.name)} quantity" ${l.qty===1?'disabled':''}>−</button><span aria-label="Quantity">${l.qty}</span><button data-qty="1" data-key="${lineKey(l)}" aria-label="Increase ${esc(p.name)} quantity" ${l.qty===99?'disabled':''}>+</button></div><button class="remove" data-remove="${lineKey(l)}" aria-label="Remove ${esc(p.name)}">Remove</button><strong>${money(Math.round(v.price*100)*l.qty/100)}</strong></div></article>`}).join(''):'<div class="empty"><h3>Your bag is empty.</h3><p>Find something for your everyday.</p><button class="primary" data-close="bagDialog">Continue shopping</button></div>';
-  $('bagTotals').innerHTML=bag.length?`<div class="total-row"><span>Subtotal</span><strong>${money(bagTotal(bag,products))}</strong></div><p class="bag-disclaimer">Pack prices in GBP. Delivery and applicable taxes will be confirmed before payment. Saving items does not reserve stock.</p><button class="primary" id="checkout">${settings.checkoutEnabled?'Continue to Stripe':'Stripe checkout'} <span aria-hidden="true">→</span></button><p class="checkout-notice" id="checkoutNotice" hidden role="status"></p>`:'';
+  $('bagTotals').innerHTML=bag.length?`<div class="total-row"><span>Subtotal</span><strong>${money(bagTotal(bag,products))}</strong></div><p class="bag-disclaimer">Pack prices in GBP. Delivery and applicable taxes will be confirmed before payment. Saving items does not reserve stock.</p><button class="primary" id="checkout">${settings.checkoutEnabled?'Continue to Stripe':'Checkout availability'} <span aria-hidden="true">→</span></button><p class="checkout-notice" id="checkoutNotice" hidden role="status"></p>`:'';
   if($('checkout'))$('checkout').onclick=startCheckout;
 }
 function openBag(){renderBag();show('bagDialog')}
@@ -76,7 +78,7 @@ document.addEventListener('click',e=>{
   if(!$('collection')&&(b.hasAttribute('data-all')||b.dataset.category)){e.preventDefault();location.href='/'+(b.dataset.category?'?category='+encodeURIComponent(b.dataset.category):'')+'#collection';return}
   if(b.hasAttribute('data-all')){e.preventDefault();reset();$('collection').scrollIntoView();closeMenu()}
   if(b.dataset.category){e.preventDefault();filters.category=b.dataset.category;filters.savedOnly=false;filters.search='';$('search').value='';render();$('collection').scrollIntoView({behavior:'auto'});url();closeMenu()}
-  if(b.dataset.product)product(b.dataset.product);
+  if(b.dataset.product){if(b.tagName==='A'&&(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button!==0))return;e.preventDefault();product(b.dataset.product);}
   if(b.dataset.save){const id=b.dataset.save;saved=saved.includes(id)?saved.filter(x=>x!==id):[...saved,id];save('daliy-saved-v1',saved);render();document.querySelector(`[data-save="${id}"]`)?.focus()}
   if(b.dataset.close)$(b.dataset.close).close();
   if(b.dataset.remove){bag=bag.filter(l=>lineKey(l)!==b.dataset.remove);persist();renderBag()}
@@ -97,14 +99,14 @@ for(const d of document.querySelectorAll('dialog')){
 }
 async function load(){
   try{
-    const r=await Promise.all([fetch('./catalogue.json'),fetch('./settings.json')]);if(r.some(x=>!x.ok))throw Error();
-    [products,settings]=await Promise.all(r.map(x=>x.json()));cats=[...new Set([...defaultCategories,...products.map(p=>p.category)])];bag=normalizeBag(read('daliy-bag-v1',[]),products);
+    const r=await Promise.all([fetch('/catalogue.json'),fetch('/settings.json')]);if(r.some(x=>!x.ok))throw Error();
+    [products,settings]=await Promise.all(r.map(x=>x.json()));cats=[...new Set([...defaultCategories.filter(c=>products.some(p=>p.category===c)),...products.map(p=>p.category)])];bag=normalizeBag(read('daliy-bag-v1',[]),products);
     const stored=read('daliy-saved-v1',[]);saved=Array.isArray(stored)?[...new Set(stored.filter(id=>products.some(p=>p.id===id)))]:[];
     const q=new URLSearchParams(location.search);filters.search=q.get('q')||'';filters.category=cats.includes(q.get('category'))?q.get('category'):'All products';filters.sort=['featured','price-low','price-high','name'].includes(q.get('sort'))?q.get('sort'):'featured';
     filters.savedOnly=q.get('saved')==='1';
     if($('search'))$('search').value=filters.search;if($('sort'))$('sort').value=filters.sort;
     if($('heroCategories'))$('heroCategories').innerHTML=cats.map(c=>{const p=products.find(p=>p.id===categoryCover[c]&&p.category===c)||products.find(p=>p.category===c);return `<a href="#collection" data-category="${esc(c)}">${p?.images[0]?`<img class="category-image" src="${esc(p.images[0])}" alt="">`:''}<span>${esc(c)}</span></a>`}).join('');
-    document.querySelectorAll('.highlight-card[data-product],.feature-tile [data-product]').forEach(el=>{const p=products.find(p=>p.id===el.dataset.product);const tile=el.closest('.feature-tile')||el;tile.hidden=!p;if(p&&el.classList.contains('highlight-card')){el.setAttribute('aria-label','Explore '+p.name);if(p.managed)el.querySelector('strong').textContent=p.name}});
+    document.querySelectorAll('.highlight-card[data-product],.feature-tile [data-product]').forEach(el=>{const p=products.find(p=>p.id===el.dataset.product);const tile=el.closest('.feature-tile')||el;tile.hidden=!p;if(p&&el.classList.contains('highlight-card')){el.removeAttribute('aria-label');if(p.managed)el.querySelector('strong').textContent=p.name}});
     document.querySelectorAll('[data-cover-product]').forEach(img=>{const p=products.find(p=>p.id===img.dataset.coverProduct);img.hidden=!p?.images[0];if(p?.images[0]){img.src=p.images[0];if(img.classList.contains('feature-cover'))img.alt=p.name}});
     document.querySelectorAll('[data-price]').forEach(el=>{const p=products.find(p=>p.id===el.dataset.price);if(p)el.textContent=money(p.price)});
     if($('loadError'))$('loadError').hidden=true;render();loadCheckoutConfig();checkPaymentReturn();
@@ -118,9 +120,9 @@ load();
 async function loadCheckoutConfig(){try{const r=await fetch('/api/checkout-config');if(!r.ok)return;const c=await r.json();settings.checkoutEnabled=c.enabled===true&&c.provider==='stripe';settings.checkoutMessage=c.message;if($('bagDialog').open)renderBag()}catch{}}
 async function startCheckout(){
  const notice=$('checkoutNotice');notice.hidden=false;
- if(!settings.checkoutEnabled){notice.textContent=settings.checkoutMessage;return}
+ if(!settings.checkoutEnabled){notice.textContent=settings.checkoutMessage||'Online checkout is currently unavailable. Contact us about your selection.';return}
  const button=$('checkout');button.disabled=true;notice.textContent='Connecting securely to Stripe…';
- try{const signature=JSON.stringify(bag),previous=read('daliy-checkout-attempt',{});const checkoutId=previous.signature===signature?previous.id:crypto.randomUUID();save('daliy-checkout-attempt',{signature,id:checkoutId});
+ try{const signature=JSON.stringify(bag),previous=read('daliy-checkout-attempt',{});const checkoutId=previous?.signature===signature&&typeof previous.id==='string'?previous.id:crypto.randomUUID();save('daliy-checkout-attempt',{signature,id:checkoutId});
  const items=bag.map(l=>{const p=products.find(p=>p.id===l.id),v=p.variants.find(v=>v.id===l.variantId);return {...l,size:'One size',colour:v.label}});
  const r=await fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items,checkoutId})});const result=await r.json();if(!r.ok)throw Error(result.error||'Checkout is unavailable.');
  const target=new URL(result.url);if(target.protocol!=='https:'||target.hostname!=='checkout.stripe.com')throw Error('The checkout address could not be verified.');
@@ -129,7 +131,7 @@ async function startCheckout(){
 }
 async function checkPaymentReturn(){const q=new URLSearchParams(location.search),id=q.get('session_id');if(q.get('checkout')==='cancelled'){toast('Checkout cancelled. Your bag is saved.');return}if(!id||!/^cs_(test|live)_[A-Za-z0-9]+$/.test(id))return;
  $('infoTitle').textContent='Payment status';$('infoText').textContent='Checking your payment with the store…';show('infoDialog');
- try{const r=await fetch('/api/payment-status?session_id='+encodeURIComponent(id));if(!r.ok)throw Error();const data=await r.json();if(data.status==='paid'){$('infoText').textContent='Your payment is confirmed. Your order has been received.';const pending=read('daliy-pending-purchase',{});if(pending.sessionId===id&&Array.isArray(pending.items)){bag=bag.map(l=>({...l,qty:l.qty-(pending.items.find(x=>lineKey(x)===lineKey(l))?.qty||0)})).filter(l=>l.qty>0);persist();save('daliy-pending-purchase',{});save('daliy-checkout-attempt',{})}}else $('infoText').textContent=data.status==='failed'?'Payment was not completed. Your bag has been kept.':'Your payment is awaiting confirmation. Please check your Stripe receipt before trying to pay again.'}catch{$('infoText').textContent='Payment status could not be checked. Please check your Stripe receipt before trying to pay again.'}
+ try{const r=await fetch('/api/payment-status?session_id='+encodeURIComponent(id));if(!r.ok)throw Error();const data=await r.json();if(data.status==='paid'){$('infoText').textContent='Your payment is confirmed. Your order has been received.';const pending=read('daliy-pending-purchase',{});if(pending?.sessionId===id&&Array.isArray(pending.items)){bag=bag.map(l=>({...l,qty:l.qty-(pending.items.find(x=>lineKey(x)===lineKey(l))?.qty||0)})).filter(l=>l.qty>0);persist();save('daliy-pending-purchase',{});save('daliy-checkout-attempt',{})}}else $('infoText').textContent=data.status==='failed'?'Payment was not completed. Your bag has been kept.':'Your payment is awaiting confirmation. Please check your Stripe receipt before trying to pay again.'}catch{$('infoText').textContent='Payment status could not be checked. Please check your Stripe receipt before trying to pay again.'}
 }
 
 // Native horizontal browsing also supports explicit controls and keyboard navigation.

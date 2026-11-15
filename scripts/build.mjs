@@ -10,11 +10,12 @@ const revision=createHash('sha256');
 for(const name of ['app.js','cart.mjs','support.js','styles.css','support.css','storefront.css','admin.css','admin.js'])revision.update(await readFile('src/'+name));
 const assetVersion=revision.digest('hex').slice(0,12);
 const template=(await readFile('src/index.html','utf8')).replace(/(src|href)="(\.\/[^"]+\.(?:js|css))"/g,`$1="$2?v=${assetVersion}"`);
-await writeFile(path.join(publicDir,'index.html'),template);
-const titles={contact:'Contact us',reviews:'Reviews — Design preview',account:'Your account',owner:'Owner dashboard','404':'Page not found'};
+const publicTemplate=template.replace(/<script type="module" src=".\/admin.js[^"]*"><\/script>/,'');
+await writeFile(path.join(publicDir,'index.html'),publicTemplate);
+const titles={contact:'Contact us',reviews:'Reviews',account:'Your account',owner:'Owner dashboard','404':'Page not found'};
 for(const [page,title] of Object.entries(titles)){
  const main=await readFile(`src/pages/${page}.html`,'utf8');
- let html=template.replace(/<main id="top">[\s\S]*?<\/main>/,main).replace(/<title>.*?<\/title>/,`<title>${title} — Mello</title>`).replace(/href="#top"/g,'href="/"').replace(/<link rel="preload" as="image"[^>]+>/,'').replace('<body>',`<body data-page="${page}">`).replace(/href="#collection"/g,'href="/#collection"').replace('<a class="skip" href="/#collection">Skip to products</a>','<a class="skip" href="#top">Skip to content</a>');
+ let html=(page==='owner'?template:publicTemplate).replace(/<main id="top">[\s\S]*?<\/main>/,main).replace(/<title>.*?<\/title>/,`<title>${title} — Mello</title>`).replace(/href="#top"/g,'href="/"').replace(/<link rel="preload" as="image"[^>]+>/,'').replace('<body>',`<body data-page="${page}">`).replace(/href="#collection"/g,'href="/#collection"').replace('<a class="skip" href="/#collection">Skip to products</a>','<a class="skip" href="#top">Skip to content</a>');
  html=html.replace('content="Discover your next everyday favourite. Shop phones, audio, watches, smart glasses, hair care and fragrance at Mello."',`content="${title}. Mello customer support and shopping."`);
  await writeFile(path.join(publicDir,`${page}.html`),html);
 }

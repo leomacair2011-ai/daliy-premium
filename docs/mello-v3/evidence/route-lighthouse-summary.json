@@ -1,0 +1,70 @@
+[
+  {
+    "phase": "after",
+    "device": "mobile",
+    "run": 1,
+    "url": "http://127.0.0.1:3189/products/daily-7720755",
+    "lighthouseVersion": "13.6.0",
+    "fetchTime": "2026-11-15T15:23:39.326Z",
+    "scores": {
+      "performance": 92,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 69
+    },
+    "lcp": 3325.2536,
+    "cls": 0,
+    "tbt": 60.3732
+  },
+  {
+    "phase": "after",
+    "device": "desktop",
+    "run": 1,
+    "url": "http://127.0.0.1:3189/products/daily-7720755",
+    "lighthouseVersion": "13.6.0",
+    "fetchTime": "2026-11-15T15:23:52.297Z",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 69
+    },
+    "lcp": 679.9418000000001,
+    "cls": 0,
+    "tbt": 0
+  },
+  {
+    "phase": "after",
+    "device": "mobile",
+    "run": 1,
+    "url": "http://127.0.0.1:3189/contact",
+    "lighthouseVersion": "13.6.0",
+    "fetchTime": "2026-11-15T15:24:04.096Z",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 66
+    },
+    "lcp": 1216.1063,
+    "cls": 0,
+    "tbt": 0
+  },
+  {
+    "phase": "after",
+    "device": "mobile",
+    "run": 1,
+    "url": "http://127.0.0.1:3189/reviews",
+    "lighthouseVersion": "13.6.0",
+    "fetchTime": "2026-11-15T15:24:15.712Z",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 66
+    },
+    "lcp": 1211.9595,
+    "cls": 0,
+    "tbt": 0
+  }
+]

@@ -1,0 +1,62 @@
+
+> daliy-premium@1.0.0 test
+> node --test tests/*.test.mjs
+
+✔ all admin endpoints reject guests and customers; writes require same origin (5.506042ms)
+✔ uploads persist, drafts stay private, publication updates catalogue and archived photos become private (3.686792ms)
+✔ upload rejects disguised SVG, oversized content and mismatched types (1.798709ms)
+✔ product validates prices, stock, image references and prevents lost updates (1.851709ms)
+✔ order dashboard shows Stripe-confirmed orders and stores fulfilment without altering payment (4.118584ms)
+✔ order pagination and search do not leak records or interpret SQL (1.442708ms)
+✔ custom categories persist and are safely returned as plain catalogue text (0.943917ms)
+✔ public checkout status exposes provider readiness without secrets (3.839209ms)
+✔ activation and fulfilment flags cannot substitute for account and shipping configuration (0.215125ms)
+✔ wrong merchant account is rejected before an order is created (0.670708ms)
+✔ body cap rejects chunked input without a content length (50.359375ms)
+✔ body cap does not trust dishonest content length (0.404667ms)
+✔ bounded body preserves exact signature bytes and headers (1.407916ms)
+✔ GET and empty bodies pass unchanged; boundary length is accepted (0.850542ms)
+✔ direct product URL is useful server HTML with real options, canonical and private index controls (87.668958ms)
+✔ draft, archived, missing and malformed product paths return 404 without private content (2.106875ms)
+✔ catalogue failure returns unavailable rather than fabricated product or stale seed (0.576958ms)
+✔ private robots and sitemap advertise no indexable URLs (0.328084ms)
+✔ HEAD has matching status but no body; writes rejected; unrelated routes fall through (0.500417ms)
+✔ nonlocal product image values are not promoted into HTML or social metadata (0.41025ms)
+✔ nine unique products with all options and supplier photos (1.117292ms)
+✔ reject invalid lines, merge duplicates, cap quantities (0.855ms)
+✔ recalculate from catalogue, not saved price (0.303209ms)
+✔ combine filters and sort numerically (2.542167ms)
+✔ checkout is explicitly paused (3.437958ms)
+✔ all supplier and studio assets are local and available (8.557458ms)
+✔ catalogue price overrides client price and selected options remain attached (0.844792ms)
+✔ rejects absent options, invalid quantities, unknown products and over-stock split lines (0.221834ms)
+✔ payments cannot start without keys and explicit activation (2.012958ms)
+✔ checkout creates server-priced USD session with selected plan and retry key (5.150041ms)
+✔ webhooks verify signatures and record only paid matching totals (6.319417ms)
+✔ size stock is enforced per colour and size, including repeated basket lines (0.167791ms)
+✔ mixed baskets collect a shipping address and reconcile the shipping charge; digital orders do not (0.704667ms)
+✔ restored GBP clothing prices are charged and recorded in pounds (0.991042ms)
+✔ owner routes reject anonymous and customer accounts; account identity is server-derived (44.0445ms)
+✔ customer conversations are isolated; caller cannot select another thread (7.024042ms)
+✔ guest session uses an opaque secure cookie and does not trust IP addresses (16.112459ms)
+✔ retries are idempotent and conflicting payloads are rejected (3.843ms)
+✔ owner replies reach the correct visitor, unread counts clear, and closed chats reopen (4.089834ms)
+✔ availability requires explicit owner status and a recent heartbeat (1.186375ms)
+✔ cross-site writes, invalid content, and excessive messages are rejected (3.979833ms)
+✔ missing database fails honestly without pretending a message was sent (0.122125ms)
+✔ independent search: case, repeated spaces and punctuation identify the same product (0.995042ms)
+✔ independent search: model punctuation and hyphenated manufacturer names remain discoverable (0.113ms)
+✔ independent search: partial and category queries remain relevant; unknown query stays empty (0.099584ms)
+✔ independent search: filters and price sorting do not mutate catalogue ordering (0.143792ms)
+✔ independent basket: malformed storage, removed products and removed variants are ignored (0.161042ms)
+✔ independent basket: duplicate lines retain variant identity and cannot exceed quantity cap (0.1975ms)
+✔ independent basket: totals use current variant prices in integer pennies (0.447375ms)
+✔ built Worker serves product HTML, privacy directives and correct error statuses (35.259916ms)
+ℹ tests 50
+ℹ suites 0
+ℹ pass 50
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 370.183875

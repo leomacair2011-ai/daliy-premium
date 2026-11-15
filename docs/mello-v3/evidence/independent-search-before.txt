@@ -1,0 +1,93 @@
+✖ independent search: case, repeated spaces and punctuation identify the same product (3.18325ms)
+✖ independent search: model punctuation and hyphenated manufacturer names remain discoverable (1.331959ms)
+✖ independent search: partial and category queries remain relevant; unknown query stays empty (0.233375ms)
+✔ independent search: filters and price sorting do not mutate catalogue ordering (0.628125ms)
+✔ independent basket: malformed storage, removed products and removed variants are ignored (0.242167ms)
+✔ independent basket: duplicate lines retain variant identity and cannot exceed quantity cap (0.126375ms)
+✔ independent basket: totals use current variant prices in integer pennies (0.192084ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 4
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 146.310541
+
+✖ failing tests:
+
+test at tests/v3-regression.test.mjs:11:1
+✖ independent search: case, repeated spaces and punctuation identify the same product (3.18325ms)
+  AssertionError [ERR_ASSERTION]:  AirPods  Pro-3 
+  + actual - expected
+  
+  + []
+  - [
+  -   'audio-3'
+  - ]
+  
+      at TestContext.<anonymous> (file:///Users/leowong/Documents/Codex/2026-11-13/https-dailypremium1-com-https-dailypremium1-com/outputs/mello-v3-qa/tests/v3-regression.test.mjs:12:77)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'audio-3' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/v3-regression.test.mjs:14:1
+✖ independent search: model punctuation and hyphenated manufacturer names remain discoverable (1.331959ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'phone-s26'
+  - ]
+  
+      at TestContext.<anonymous> (file:///Users/leowong/Documents/Codex/2026-11-13/https-dailypremium1-com-https-dailypremium1-com/outputs/mello-v3-qa/tests/v3-regression.test.mjs:15:9)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'phone-s26' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/v3-regression.test.mjs:18:1
+✖ independent search: partial and category queries remain relevant; unknown query stays empty (0.233375ms)
+  AssertionError [ERR_ASSERTION]: missing optional brand cannot be indexed as literal undefined
+  + actual - expected
+  
+  + [
+  +   'audio-3',
+  +   'audio-max',
+  +   'phone-s26',
+  +   'glasses'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/leowong/Documents/Codex/2026-11-13/https-dailypremium1-com-https-dailypremium1-com/outputs/mello-v3-qa/tests/v3-regression.test.mjs:22:9)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'audio-3', 'audio-max', 'phone-s26', 'glasses' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

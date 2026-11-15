@@ -1,0 +1,9 @@
+# Technical SEO — staged foundation
+
+Baseline #collection is an ordinary homepage anchor, not inherently an SEO defect. Product details had no addressable route. Added /products/:stable-id server-rendered identity, supplied description, option prices and image, with canonical/Open Graph metadata and existing selector. Product cards now contain actual anchors; ordinary clicks retain the existing modal, modifier clicks retain native link behaviour. Homepage catalogue remains JavaScript rendered; server-rendered catalogue/category landing pages are not claimed implemented.
+
+Six route tests cover direct HTML, escaping, trusted canonical origin, draft/archive/missing404, DB503, HEAD/write semantics, safe image paths and conservative robots/sitemap. Browser verified a fresh direct AirPods product URL and selection modal. No invented SKU/GTIN/maker/stock/condition, reviews, Offer or shipping schema added.
+
+This private preview is intentionally **not eligible for indexing**: X-Robots-Tag noindex/nofollow; robots.txt Disallow:/; empty XML sitemap. Robots can prevent crawlers seeing noindex and does not guarantee delisting. Existing Sites authentication is the access protection. Publishing a public indexing policy would require verified product facts, valid eligible URLs and owner approval. No Search Console/Merchant Center connection or Rich Results approval claimed. No rankings or traffic measured.
+
+Google sources verified by architecture specialist: https://developers.google.com/search/docs/specialty/ecommerce/designing-a-url-structure-for-ecommerce-sites and https://developers.google.com/search/docs/specialty/ecommerce/help-google-understand-your-ecommerce-site-structure . Eligibility and Product/Offer markup remain blocked by product truth and checkout readiness, not solved by metadata.
