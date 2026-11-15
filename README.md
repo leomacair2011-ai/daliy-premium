@@ -1,6 +1,6 @@
-# Daliy Premium
+# Mello
 
-A professional shopping storefront with an original identity and Apple Store inspired visual structure. Nine imported Daily Premium products, six categories, and 54 pack/colour combinations. Includes studio artwork, original supplier galleries, responsive category navigation, search, sorting, favourites, and a persistent shopping bag.
+Mello is a storefront with catalogue search, product options, saved items, a shopping bag, and customer support. The local preview starts with the sample catalogue in this repository. The hosted store manages its catalogue and uploaded product images separately.
 
 ## Run
 
@@ -31,11 +31,11 @@ Edit `store/products.json` and rebuild. Source titles, URLs, options and supplie
 
 Original supplier photography lives in `src/assets/products/` and is mapped in each product’s `images` array. Studio artwork lives in `src/assets/studio/`; `studioArt` selects its atlas position. See `docs/artwork.md` for final prompts, provenance and paths. Replace these images with commissioned photography when available.
 
-The announcement bar includes discount-code information and an estimated 14-day delivery window requested by the owner. No discount code or discount amount has been invented. Promotions must be configured, including server reconciliation of discounted totals, before enabling codes in live checkout.
+Edit the announcement messages in `src/index.html`. The bar is shared across customer pages and rotates between delivery enquiries, GBP pricing, and WhatsApp support. Storefront styles live in `src/storefront.css`.
 
 The browser saves shopping bag and favourites locally, separately from Apex Access. Corrupt or obsolete basket lines are rejected, and prices are recalculated from the catalogue on load. Fonts use the system stack; storefront assets are hosted locally.
 
-Contact, accounts, owner dashboard and chat: `docs/live-chat.md`. Preview reviews are clearly labelled fictional samples.
+Contact, accounts, owner dashboard and chat: `docs/live-chat.md`. The reviews page displays an empty state until genuine customer reviews are available.
 
 Research: `docs/design-research.md`. Tests cover catalogue integrity, invalid stored basket data, numerical totals, filter combinations and the paused checkout state.
 

@@ -145,3 +145,44 @@ if(highlightsRail){
   highlightsRail.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();moveRail(e.key==='ArrowRight'?1:-1)}});
   new ResizeObserver(updateRail).observe(highlightsRail);updateRail();
 }
+
+// Short announcements rotate only when enabled, with keyboard and motion safeguards.
+const noticeBar=document.querySelector('body:not([data-page="owner"]) .store-notices');
+if(noticeBar){
+ const slides=[...noticeBar.querySelectorAll('.notice-list li')];
+ const playback=noticeBar.querySelector('.notice-playback');
+ const status=noticeBar.querySelector('[data-notice-status]');
+ const motion=matchMedia('(prefers-reduced-motion: reduce)');
+ let current=0,playing=!motion.matches,noticeTimer;
+ const showNotice=(step,announce=false)=>{
+   current=(current+step+slides.length)%slides.length;
+   slides.forEach((slide,i)=>{slide.hidden=i!==current});
+   if(announce)status.textContent=slides[current].textContent.replace(/[›↗]/g,'').trim();
+ };
+ const schedule=()=>{
+   clearTimeout(noticeTimer);
+   if(playing&&!document.hidden&&!noticeBar.matches(':hover')){
+     noticeTimer=setTimeout(()=>{showNotice(1);schedule()},7000);
+   }
+ };
+ const setPlaying=value=>{
+   playing=value;
+   noticeBar.toggleAttribute('data-paused',!playing);
+   playback.setAttribute('aria-label',playing?'Pause announcements':'Play announcements');
+   schedule();
+ };
+ noticeBar.querySelectorAll('[data-notice-step]').forEach(button=>{
+   button.hidden=false;
+   button.addEventListener('click',()=>{setPlaying(false);showNotice(Number(button.dataset.noticeStep),true)});
+ });
+ playback.hidden=false;
+ playback.addEventListener('click',()=>setPlaying(!playing));
+ noticeBar.addEventListener('focusin',event=>{if(event.target!==playback)setPlaying(false)});
+ noticeBar.addEventListener('pointerenter',schedule);
+ noticeBar.addEventListener('pointerleave',schedule);
+ document.addEventListener('visibilitychange',schedule);
+ motion.addEventListener('change',event=>{if(event.matches)setPlaying(false)});
+ noticeBar.dataset.ready='';
+ showNotice(0);
+ setPlaying(playing);
+}

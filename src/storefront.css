@@ -46,3 +46,19 @@ a.card-open{display:block;color:inherit;text-align:inherit}
 /* WCAG contrast correction: same grey palette, two text tones only. */
 .fragrance-tile .feature-copy .eyebrow{color:#68686d}
 .image-note{color:#6b6b70}
+
+/* Shared announcement strip; links remain available without JavaScript. */
+.store-notices{display:flex;justify-content:center;align-items:center;gap:6px;min-height:44px;padding:0 12px;background:#1d1d1f;color:#fff;font-size:12px;font-weight:600;text-align:center}
+.notice-list{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:4px 18px;list-style:none;margin:0;padding:8px 0}
+.notice-list a:hover{text-decoration:underline;text-underline-offset:3px}
+.store-notices[data-ready] .notice-list{display:grid;min-width:0;width:min(26em,100%);margin:0;padding-block:4px}
+.store-notices[data-ready] .notice-list li{grid-area:1/1}
+.store-notices button{display:grid;place-items:center;flex:0 0 44px;min-height:44px;padding:0;color:inherit}
+.store-notices button:hover{background:#ffffff1a}
+.store-notices svg{width:16px;height:16px}
+.store-notices :focus-visible{outline-color:#fff;outline-offset:-3px}
+.notice-list a:focus-visible{outline-offset:3px}
+.notice-play-icon,.store-notices[data-paused] .notice-pause-icon{display:none}
+.store-notices[data-paused] .notice-play-icon{display:block}
+body[data-page="owner"] .store-notices{display:none}
+@media(max-width:400px){.store-notices{padding-inline:4px;gap:0}.store-notices[data-ready] .notice-list{font-size:11px}}

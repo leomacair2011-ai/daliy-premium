@@ -9,6 +9,20 @@
 </head>
 <body>
 <a class="skip" href="#collection">Skip to products</a>
+<section class="store-notices" aria-label="Store announcements">
+  <button class="notice-step" type="button" data-notice-step="-1" aria-label="Previous announcement" aria-controls="storeNotices" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button>
+  <ul id="storeNotices" class="notice-list">
+    <li><a href="/contact#delivery-info">Ask us about delivery <span aria-hidden="true">›</span></a></li>
+    <li>All prices shown in GBP (£)</li>
+    <li><a href="https://wa.me/447436563406" target="_blank" rel="noopener noreferrer">Chat with Mello on WhatsApp <span aria-hidden="true">↗</span></a></li>
+  </ul>
+  <button class="notice-step" type="button" data-notice-step="1" aria-label="Next announcement" aria-controls="storeNotices" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button>
+  <button class="notice-playback" type="button" aria-label="Pause announcements" aria-controls="storeNotices" hidden>
+    <svg class="notice-pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14m6-14v14"/></svg>
+    <svg class="notice-play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 10 7-10 7Z"/></svg>
+  </button>
+  <span class="sr-only" role="status" data-notice-status></span>
+</section>
 <header class="global-header">
   <div class="nav-inner">
     <a class="wordmark" href="#top" aria-label="Mello home"><span class="mello-logo"><img src="/assets/brand/mello-light.png" alt="Mello" width="1024" height="1024"></span></a>
@@ -22,7 +36,6 @@
   </div>
 </header>
 <main id="top">
-  <div class="announcement" aria-label="Store announcements"><p>Have a discount code? <button data-info="discount">Apply it at checkout <span aria-hidden="true">›</span></button></p><span class="announcement-divider" aria-hidden="true"></span><button data-info="delivery"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6h12v11H2zM14 10h4l4 4v3h-8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>14-day delivery estimate <span aria-hidden="true">›</span></button></div>
   <section class="store-intro store-width" aria-labelledby="storeTitle">
     <h1 id="storeTitle">Store.<span> A little more<br> to love every day.</span></h1>
     <div class="store-assistance"><div><span class="assistance-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 6h22v16H15l-7 5v-5H5Z"/><path d="M11 12h10M11 16h7"/></svg></span><p>Need a hand choosing?<button data-open-chat>Chat with us <span aria-hidden="true">↗</span></button></p></div><div><span class="assistance-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="10" r="5"/><path d="M6 28v-3a10 10 0 0 1 20 0v3"/></svg></span><p>Make yourself at home.<a href="/account">Your account <span aria-hidden="true">›</span></a></p></div></div>
